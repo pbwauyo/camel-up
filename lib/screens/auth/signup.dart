@@ -37,30 +37,44 @@ class SignUp extends StatelessWidget {
             ],
           ),
           Center(
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 10.0),
-              child: Text(
-                "SIGN UP",
-                style: TextStyle(color: AppColors.lightGrey, fontSize: 25),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                splashColor: Colors.black38,
+                onTap: () {},
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 10.0),
+                  child: Text(
+                    "SIGN UP",
+                    style: TextStyle(color: AppColors.lightGrey, fontSize: 25),
+                  ),
+                ),
               ),
             ),
           ),
           Center(
-            child: Container(
-              margin: const EdgeInsets.only(bottom: 10.0),
-              child: RichText(
-                  text: TextSpan(style: TextStyle(fontSize: 20), children: [
-                TextSpan(
-                    text: "Already have an acount ?",
-                    style: TextStyle(
-                      color: AppColors.darkGreyTextColor,
-                    )),
-                TextSpan(
-                    text: "Login",
-                    style: TextStyle(
-                      color: AppColors.yellow,
-                    ))
-              ])),
+            child: Material(
+              color: Colors.transparent,
+              child: InkWell(
+                splashColor: Colors.black38,
+                onTap: () {},
+                child: Container(
+                  margin: const EdgeInsets.only(bottom: 10.0),
+                  child: RichText(
+                      text: TextSpan(style: TextStyle(fontSize: 20), children: [
+                    TextSpan(
+                        text: "Already have an acount ?",
+                        style: TextStyle(
+                          color: AppColors.darkGreyTextColor,
+                        )),
+                    TextSpan(
+                        text: "Login",
+                        style: TextStyle(
+                          color: AppColors.yellow,
+                        ))
+                  ])),
+                ),
+              ),
             ),
           ),
         ],
