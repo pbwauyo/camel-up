@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "374412468098",
+    "firebase_url": "https://camel-up.firebaseio.com",
+    "project_id": "camel-up",
+    "storage_bucket": "camel-up.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:374412468098:android:575a7fae60d3e11228b99b",
+        "android_client_info": {
+          "package_name": "com.camelup.android"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "374412468098-b0n8qsr3j5si9bkhm6aaf05190bv2p81.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.camelup.android",
+            "certificate_hash": "e544d237dd316376120e1bbbd7a70eedea93b59f"
+          }
+        },
+        {
+          "client_id": "374412468098-cahg2uad92a0u871jj8lnvc8j27p5930.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyABS5Ktp7-zuh0ti18NDrI_aS2NQnlZ2xQ"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "374412468098-cahg2uad92a0u871jj8lnvc8j27p5930.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

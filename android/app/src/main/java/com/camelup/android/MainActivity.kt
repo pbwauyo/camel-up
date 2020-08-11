@@ -1,4 +1,4 @@
-package com.example.camel_up
+package com.camelup.android
 
 import io.flutter.embedding.android.FlutterActivity
 
