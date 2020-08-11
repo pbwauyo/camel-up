@@ -1,5 +1,6 @@
 import 'package:camel_up/screens/auth/login.dart';
 import 'package:camel_up/screens/auth/signup.dart';
+import 'package:camel_up/screens/welcome/welcome.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -16,7 +17,7 @@ class App extends StatelessWidget {
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: Login(),
+      home: Welcome(),
     );
   }
 }
