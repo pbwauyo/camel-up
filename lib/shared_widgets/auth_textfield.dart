@@ -1,5 +1,3 @@
-import 'dart:ffi';
-
 import 'package:camel_up/utils/colors.dart';
 import 'package:flutter/material.dart';
 
