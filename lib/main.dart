@@ -1,3 +1,4 @@
+import 'package:camel_up/screens/auth/login.dart';
 import 'package:flutter/material.dart';
 
 void main() {
@@ -8,12 +9,13 @@ class App extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return MaterialApp(
-      title: 'Flutter Demo',
+      title: 'Camel Up',
+      debugShowCheckedModeBanner: false,
       theme: ThemeData(
         primarySwatch: Colors.blue,
         visualDensity: VisualDensity.adaptivePlatformDensity,
       ),
-      home: HomePage(title: 'Flutter Demo Home Page'),
+      home: Login(),
     );
   }
 }
