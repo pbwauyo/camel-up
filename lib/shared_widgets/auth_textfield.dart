@@ -3,9 +3,11 @@ import 'package:flutter/material.dart';
 
 class AuthTextField extends StatelessWidget {
   final String hint;
+  final TextEditingController textController;
+  final String error;
   final double _radius = 30.0;
 
-  AuthTextField({@required this.hint});
+  AuthTextField({@required this.hint, @required this.textController, @required this.error});
 
   @override
   Widget build(BuildContext context) {
@@ -23,11 +25,14 @@ class AuthTextField extends StatelessWidget {
               bottomRight: Radius.circular(_radius)),
           color: AppColors.lightGrey),
       child: TextFormField(
+        controller: textController,
+        obscureText: hint == "Password" || hint == "Confirm Password",
         decoration: InputDecoration(
           border: InputBorder.none,
           hintText: hint,
+          errorText: error 
         ),
-        style: TextStyle(color: AppColors.darkGreyTextColor, fontSize: 20),
+        style: TextStyle(color: Colors.black, fontSize: 20),
       ),
     );
   }

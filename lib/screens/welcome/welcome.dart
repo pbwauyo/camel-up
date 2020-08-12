@@ -1,9 +1,12 @@
+import 'package:camel_up/cubit/auth_cubit.dart';
 import 'package:camel_up/utils/asset_names.dart';
 import 'package:camel_up/utils/colors.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:flutter_svg/svg.dart';
 
 class Welcome extends StatelessWidget {
+  
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -63,7 +66,10 @@ class Welcome extends StatelessWidget {
               color: Colors.transparent,
               child: InkWell(
                 splashColor: Colors.black38,
-                onTap: () {},
+                onTap: () {
+                  final authCubit = context.bloc<AuthCubit>();
+                  authCubit.goToHome();
+                },
                 child: Row(
                   mainAxisSize: MainAxisSize.min,
                   children: [

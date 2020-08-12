@@ -1,39 +1,92 @@
+import 'package:camel_up/cubit/auth_cubit.dart';
+import 'package:camel_up/cubit/auth_status_cubit.dart';
+import 'package:camel_up/cubit/auth_textfield_error_cubit.dart';
+import 'package:camel_up/repos/user_repo.dart';
 import 'package:camel_up/screens/auth/login.dart';
 import 'package:camel_up/screens/auth/signup.dart';
+import 'package:camel_up/screens/home/home.dart';
 import 'package:camel_up/screens/welcome/welcome.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 
 void main() {
+  WidgetsFlutterBinding.ensureInitialized();
   runApp(App());
 }
 
 class App extends StatelessWidget {
+  final _userRepo = UserRepo();
+
   @override
   Widget build(BuildContext context) {
-    return MaterialApp(
-      title: 'Camel Up',
-      debugShowCheckedModeBanner: false,
-      theme: ThemeData(
-        primarySwatch: Colors.blue,
-        visualDensity: VisualDensity.adaptivePlatformDensity,
-      ),
-      home: Welcome(),
+
+    return MultiBlocProvider(
+      providers: [
+        BlocProvider<AuthCubit>(
+          create: (context) => AuthCubit(_userRepo)
+        ),
+        BlocProvider<AuthTextfieldErrorCubit>(
+          create: (context) => AuthTextfieldErrorCubit()
+        ),
+        BlocProvider<AuthStatusCubit>(
+          create: (context) => AuthStatusCubit()
+        ),
+      
+      ],
+      child: MaterialApp(
+          title: 'Camel Up',
+          debugShowCheckedModeBanner: false,
+          theme: ThemeData(
+            primarySwatch: Colors.blue,
+            visualDensity: VisualDensity.adaptivePlatformDensity,
+          ),
+          home: Body(),
+        ),
     );
   }
 }
 
-class HomePage extends StatefulWidget {
-  HomePage({Key key, this.title}) : super(key: key);
-
-  final String title;
+class Body extends StatefulWidget {
+  Body({Key key}) : super(key: key);
 
   @override
-  _HomePageState createState() => _HomePageState();
+  _BodyState createState() => _BodyState();
 }
 
-class _HomePageState extends State<HomePage> {
+class _BodyState extends State<Body> {
+
+  @override
+  void initState() {
+    super.initState();
+    
+    Future.delayed(Duration.zero, (){
+      final authCubit = context.bloc<AuthCubit>();
+      authCubit.checkSignedInUser();
+    });
+
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Scaffold();
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state){
+        if(state is AuthInitial){
+          return CircularProgressIndicator();
+        }else if(state is AuthLoggedIn){
+          return Home();
+        }else if(state is AuthSignUp){
+          return SignUp();
+        }else if(state is AuthLogIn){
+          return Login();
+        }else if(state is AuthSignedUp){
+          return Welcome();
+        }else if(state is AuthSignUpError){
+          return SignUp();
+        }
+        else{
+          return Login();
+        }
+      }
+    );
   }
 }
