@@ -31,8 +31,8 @@ class _SignUpState extends State<SignUp> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.darkBackground,
-      body: Column(
-        mainAxisAlignment: MainAxisAlignment.spaceAround,
+      body: ListView(
+        
         children: [
           Center(
             child: BlocListener<AuthCubit, AuthState>(
@@ -57,7 +57,7 @@ class _SignUpState extends State<SignUp> {
                   }
                 },
                 child: Container(
-                  margin: const EdgeInsets.only(bottom: 10.0, top: 10.0),
+                  margin: const EdgeInsets.only(bottom: 40.0, top: 30.0),
                   child: Text(
                     "Sign Up",
                     style: TextStyle(
@@ -76,7 +76,7 @@ class _SignUpState extends State<SignUp> {
                 builder: (context, state) {
                   return Container(
                     height: 60,
-                    margin: const EdgeInsets.only(bottom: 20.0),
+                    margin: const EdgeInsets.only(bottom: 30.0),
                     child: AuthTextField(
                       hint: "Firstname", 
                       textController: fNameController, 
@@ -89,7 +89,7 @@ class _SignUpState extends State<SignUp> {
                 builder: (context, state) {
                   return Container(
                     height: 60,
-                    margin: const EdgeInsets.only(bottom: 20.0),
+                    margin: const EdgeInsets.only(bottom: 30.0),
                     child: AuthTextField(
                       hint: "Lastname", 
                       textController: lNameController,
@@ -102,7 +102,7 @@ class _SignUpState extends State<SignUp> {
                 builder: (context, state) {
                   return Container(
                     height: 60,
-                    margin: const EdgeInsets.only(bottom: 20.0),
+                    margin: const EdgeInsets.only(bottom: 30.0),
                     child: AuthTextField(
                       hint: "Email", 
                       textController: emailController,
@@ -115,7 +115,7 @@ class _SignUpState extends State<SignUp> {
                 builder: (context, state) {
                   return Container(
                       height: 60,
-                      margin: const EdgeInsets.only(bottom: 20.0),
+                      margin: const EdgeInsets.only(bottom: 30.0),
                       child: AuthTextField(
                         hint: "Password", 
                         textController: passwordController,
@@ -128,7 +128,7 @@ class _SignUpState extends State<SignUp> {
                 builder: (context, state) {
                   return Container(
                     height: 60,
-                    margin: const EdgeInsets.only(bottom: 75.0),
+                    margin: const EdgeInsets.only(bottom: 50.0),
                     child: AuthTextField(
                       hint: "Confirm Password", 
                       textController: confPasswordController,
@@ -190,7 +190,7 @@ class _SignUpState extends State<SignUp> {
                   
                 },
                 child: Container(
-                  margin: const EdgeInsets.only(bottom: 10.0),
+                  margin: const EdgeInsets.only(bottom: 50.0),
                   child: Text(
                     "SIGN UP",
                     style: TextStyle(color: AppColors.lightGrey, fontSize: 25),

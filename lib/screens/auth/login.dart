@@ -48,7 +48,7 @@ class _LoginState extends State<Login> {
                 } ,
                 child: Center(
                   child: Container(
-                    margin: const EdgeInsets.only(bottom: 10.0, top: 10.0),
+                    margin: const EdgeInsets.only(bottom: 10.0, top: 30.0),
                     child: Text(
                       "LOGIN NOW",
                       style: TextStyle(
