@@ -15,9 +15,9 @@ class UserRepo {
   Future<void> createNewUser(Profile profile) {
     return _firebaseAuth
         .createUserWithEmailAndPassword(
-            email: profile.email, password: profile.password)
+            email: profile.email, password: profile.password).catchError((error)=> throw error)
         .then((value) {
-      _firestore.collection("users").add(profile.toMap());
+      _firestore.collection("users").add(profile.toMap()).catchError((error)=> throw error);
     });
   }
 

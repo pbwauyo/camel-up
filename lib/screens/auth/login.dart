@@ -29,13 +29,21 @@ class _LoginState extends State<Login> {
             BlocListener<AuthCubit, AuthState>(
               listener: (context, state) {
                 if(state is AuthError){
-                    Fluttertoast.showToast(msg: state.message);
+                    Fluttertoast.showToast(
+                      msg: state.message,
+                      toastLength: Toast.LENGTH_LONG,
+                      backgroundColor: AppColors.yellow
+                    );
                 }
               },
               child: BlocListener<AuthStatusCubit, AuthStatusState>(
                 listener: (context, state){
                   if(state is AuthLoggedInSuccess){
-                    Fluttertoast.showToast(msg: "Login Successfully");
+                    Fluttertoast.showToast(
+                      msg: "Login Successfully",
+                      toastLength: Toast.LENGTH_SHORT,
+                      backgroundColor: AppColors.yellow    
+                    );
                   }
                 } ,
                 child: Center(
@@ -116,8 +124,8 @@ class _LoginState extends State<Login> {
                     splashColor: Colors.black38,
                     onTap: () {
                       final authCubit = context.bloc<AuthCubit>();
-                      final email = emailTextController.text;
-                      final pswd = pswdTextController.text;
+                      final email = emailTextController.text.trim();
+                      final pswd = pswdTextController.text.trim();
 
                       final fieldsAreValid = loginFieldsAreValid(
                         context: context,

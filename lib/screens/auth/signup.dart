@@ -37,14 +37,23 @@ class _SignUpState extends State<SignUp> {
           Center(
             child: BlocListener<AuthCubit, AuthState>(
               listener: (context, state) {
-                if(state is AuthError){
-                    Fluttertoast.showToast(msg: state.message);
+                if(state is AuthSignUpError){
+                  print("Signup lister");
+                  Fluttertoast.showToast(
+                      msg: state.message,
+                      toastLength: Toast.LENGTH_LONG,
+                      backgroundColor: AppColors.yellow
+                    );
                 }
               },
               child: BlocListener<AuthStatusCubit, AuthStatusState>(
                 listener: (context, state) {
                   if(state is AuthSignUpSuccess){
-                    Fluttertoast.showToast(msg: "Account created successfully");
+                    Fluttertoast.showToast(
+                      msg: "Account created successfully",
+                      toastLength: Toast.LENGTH_SHORT,
+                      backgroundColor: AppColors.yellow
+                    );
                   }
                 },
                 child: Container(
@@ -150,11 +159,11 @@ class _SignUpState extends State<SignUp> {
                 onTap: () {
                   final authCubit = context.bloc<AuthCubit>();
                   
-                  final email = emailController.text;
-                  final password = passwordController.text;
-                  final confPassword = confPasswordController.text;
-                  final fName = fNameController.text;
-                  final lName = lNameController.text;
+                  final email = emailController.text.trim();
+                  final password = passwordController.text.trim();
+                  final confPassword = confPasswordController.text.trim();
+                  final fName = fNameController.text.trim();
+                  final lName = lNameController.text.trim();
 
                   final fieldsAreValid = signUpFieldsAreValid(
                     context: context, 

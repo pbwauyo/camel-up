@@ -1,6 +1,7 @@
 import 'package:bloc/bloc.dart';
 
 import 'package:camel_up/cubit/auth_status_cubit.dart';
+import 'package:camel_up/exeception_handlers/auth_exeception_handler.dart';
 import 'package:camel_up/models/profile.dart';
 import 'package:camel_up/repos/user_repo.dart';
 import 'package:equatable/equatable.dart';
@@ -29,26 +30,34 @@ class AuthCubit extends Cubit<AuthState> {
   }
 
   Future signUpUser(BuildContext context,  Profile profile) async {
+    final authStatusCubit = context.bloc<AuthStatusCubit>();
     try{
-      final authStatusCubit = context.bloc<AuthStatusCubit>();
       authStatusCubit.loadingStatus();
       await _userRepo.createNewUser(profile);
+      authStatusCubit.loadedStatus();
       authStatusCubit.signUpSuccess();
       emit(AuthSignedUp());
     }catch(error){
-      emit(AuthSignUpError("$error"));
+      final String message = error.message;
+      print(message);
+      authStatusCubit.loadedStatus();
+      emit(AuthSignUpError(message));
     }
   }
 
   Future loginUser(BuildContext context, String email, String password) async {
+    final authStatusCubit = context.bloc<AuthStatusCubit>();
     try{
-      final authStatusCubit = context.bloc<AuthStatusCubit>();
       authStatusCubit.loadingStatus();
       await _userRepo.loginUser(email, password);
+      authStatusCubit.loadedStatus();
       authStatusCubit.loginSucess();
       emit(AuthLoggedIn(email));
     }catch(error){
-      emit(AuthError("$error"));
+      final String message = error.message;
+      print(message);
+      authStatusCubit.loadedStatus();
+      emit(AuthError(message));
     }
   }
 
@@ -57,7 +66,7 @@ class AuthCubit extends Cubit<AuthState> {
       await _userRepo.logoutUser();
       emit(AuthLoggedOut());
     }catch(error){
-      emit(AuthError("Error while logging out"));
+      emit(AuthError(error.message));
     }
   }
 

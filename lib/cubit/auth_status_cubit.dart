@@ -17,5 +17,9 @@ class AuthStatusCubit extends Cubit<AuthStatusState> {
   loadingStatus(){
     emit(AuthLoading());
   }
+
+  loadedStatus(){
+    emit(AuthLoaded());
+  }
 }
 

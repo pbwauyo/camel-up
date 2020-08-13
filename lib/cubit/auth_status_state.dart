@@ -29,3 +29,10 @@ class AuthLoading extends AuthStatusState{
   @override
   List<Object> get props => [];
 }
+
+class AuthLoaded extends AuthStatusState{
+  const AuthLoaded();
+
+  @override
+  List<Object> get props => [];
+}
