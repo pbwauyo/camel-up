@@ -1,4 +1,5 @@
 import 'dart:ui';
+import 'package:camel_up/cubit/selected_members_cubit.dart';
 import 'package:camel_up/cubit/team_results_cubit.dart';
 import 'package:camel_up/cubit/team_selection_cubit.dart';
 import 'package:camel_up/models/profile.dart';
@@ -134,7 +135,15 @@ class _SearchDialogState extends State<SearchDialog>{
                           child: CancelButton(
                             onTap: (){
                               Navigations.popScreen(context);
-                              PrefManager.getTeamMembers().then((list) => print(list));
+                              PrefManager.getTeamMembers()
+                                .then((list) {
+
+                                  if(list != null && list.length > 0){
+                                    context.bloc<SelectedMembersCubit>()
+                                         .finishTeamMemberSelection(list);
+                                  }
+                                  
+                                });
                             },
                           ),
                         ),

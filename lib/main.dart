@@ -2,6 +2,7 @@ import 'package:camel_up/cubit/auth_cubit.dart';
 import 'package:camel_up/cubit/auth_status_cubit.dart';
 import 'package:camel_up/cubit/auth_textfield_error_cubit.dart';
 import 'package:camel_up/cubit/enter_role_cubit.dart';
+import 'package:camel_up/cubit/selected_members_cubit.dart';
 import 'package:camel_up/cubit/team_results_cubit.dart';
 import 'package:camel_up/cubit/team_selection_cubit.dart';
 import 'package:camel_up/repos/user_repo.dart';
@@ -43,6 +44,9 @@ class App extends StatelessWidget {
         ),
         BlocProvider<EnterRoleCubit>(
           create: (context) => EnterRoleCubit()
+        ),
+        BlocProvider<SelectedMembersCubit>(
+          create: (context) => SelectedMembersCubit()
         )
       
       ],

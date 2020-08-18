@@ -9,7 +9,7 @@ class PrefManager {
   static saveTeamMember({@required String email, @required String role}) async{
     final prefs = await SharedPreferences.getInstance();
     final Map<String, String> newMember = {
-        "id" : email,
+        "email" : email,
         "role" : role
       };
 

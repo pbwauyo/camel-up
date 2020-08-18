@@ -16,9 +16,9 @@ class TeamResultsCubit extends Cubit<TeamResultsState> {
 
   TeamResultsCubit({@required this.userRepo}) : super(TeamResultsInitial());
 
-  final  usersStreamController = BehaviorSubject<List<Profile>>();
+  final  _usersStreamController = BehaviorSubject<List<Profile>>();
 
-  get usersStream => usersStreamController;
+  get usersStream => _usersStreamController;
 
   fetchUsersByKeyword(String keyword) async{
     emit(TeamResultsLoading());
@@ -35,7 +35,7 @@ class TeamResultsCubit extends Cubit<TeamResultsState> {
         } 
       });
       print("List: ${list.length}");
-      usersStreamController.add(list);
+      _usersStreamController.add(list);
       emit(TeamResultsLoaded());
     }catch(error){
       print("Error: ${error.message}");
