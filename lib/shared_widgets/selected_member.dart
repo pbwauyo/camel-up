@@ -1,9 +1,15 @@
+import 'package:camel_up/models/profile.dart';
 import 'package:camel_up/utils/asset_names.dart';
 import 'package:camel_up/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class SelectedMember extends StatelessWidget{
+  final String email;
+  final String role;
   final double size = 60;
+
+  SelectedMember({@required this.email, @required this.role});
+
   @override
   Widget build(BuildContext context) {
     return Container(

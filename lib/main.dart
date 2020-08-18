@@ -1,7 +1,9 @@
 import 'package:camel_up/cubit/auth_cubit.dart';
 import 'package:camel_up/cubit/auth_status_cubit.dart';
 import 'package:camel_up/cubit/auth_textfield_error_cubit.dart';
+import 'package:camel_up/cubit/enter_role_cubit.dart';
 import 'package:camel_up/cubit/team_results_cubit.dart';
+import 'package:camel_up/cubit/team_selection_cubit.dart';
 import 'package:camel_up/repos/user_repo.dart';
 import 'package:camel_up/screens/auth/login.dart';
 import 'package:camel_up/screens/auth/signup.dart';
@@ -36,6 +38,12 @@ class App extends StatelessWidget {
         BlocProvider<TeamResultsCubit>(
           create: (context) => TeamResultsCubit(userRepo: _userRepo)
         ),
+        BlocProvider<TeamSelectionCubit>(
+          create: (context) => TeamSelectionCubit()
+        ),
+        BlocProvider<EnterRoleCubit>(
+          create: (context) => EnterRoleCubit()
+        )
       
       ],
       child: MaterialApp(

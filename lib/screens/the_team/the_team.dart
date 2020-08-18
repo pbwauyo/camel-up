@@ -7,6 +7,7 @@ import 'package:camel_up/shared_widgets/search_dialog.dart';
 import 'package:camel_up/shared_widgets/selected_member.dart';
 import 'package:camel_up/shared_widgets/yellow_dot.dart';
 import 'package:camel_up/utils/colors.dart';
+import 'package:camel_up/utils/pref_manager.dart';
 import 'package:flutter/material.dart';
 
 class TheTeam extends StatelessWidget{
@@ -58,10 +59,11 @@ class TheTeam extends StatelessWidget{
               iconSize: 55, 
               iconColor: AppColors.yellow, 
               onTap: (){
+                PrefManager.clearTeamMembers();
                 Navigator.of(context).push(PageRouteBuilder(
-                    opaque: false,
-                    pageBuilder: (BuildContext context, _, __) =>
-                        SearchDialog()));
+                  opaque: false,
+                  pageBuilder: (BuildContext context, _, __) =>
+                      SearchDialog()));
               }
             ),
           ),

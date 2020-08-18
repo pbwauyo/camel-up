@@ -7,4 +7,5 @@ class AppColors {
   static final Color lightGreyShade2 = Color(0xFF707070);
   static final Color darkGrey = Color(0xFF949494);
   static final Color darkGreyTextColor = Color(0xFF949494);
+  static final Color green = Color(0xFF00C951);
 }

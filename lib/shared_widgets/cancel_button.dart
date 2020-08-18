@@ -3,9 +3,9 @@ import 'package:camel_up/utils/navigations.dart';
 import 'package:flutter/material.dart';
 
 class CancelButton extends StatelessWidget{
-  final BuildContext context;
+  final VoidCallback onTap;
 
-  CancelButton({@required this.context});
+  CancelButton({@required this.onTap});
 
   @override
   Widget build(BuildContext context) {
@@ -13,9 +13,7 @@ class CancelButton extends StatelessWidget{
       color: Colors.transparent,
       child: InkWell(
         splashColor: Colors.black38,
-        onTap: (){
-          Navigations.popScreen(context);
-        },
+        onTap: onTap,
         child: Container(
           width: 65,
           height: 65,
