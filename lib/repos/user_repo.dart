@@ -52,6 +52,10 @@ class UserRepo {
         
   }
 
+  Future<QuerySnapshot> getUserProfiles(){
+    return _firestore.collection("users").getDocuments();
+  }
+
   Future<String> getCurrentUserEmail() async {
     return (await _firebaseAuth.currentUser()).email;
   }

@@ -2,8 +2,8 @@ import 'package:flutter/material.dart';
 
 class Navigations{
 
-  static Route slideFromRight({@required BuildContext context, @required Widget newScreen}){
-    return PageRouteBuilder(
+  static slideFromRight({@required BuildContext context, @required Widget newScreen}){
+    final route = PageRouteBuilder(
       pageBuilder: (context, anim, secondAnim){
         return newScreen;
       },
@@ -20,5 +20,11 @@ class Navigations{
       }
       
     );
+
+    Navigator.of(context).push(route);
+  }
+
+  static popScreen(BuildContext context){
+    Navigator.of(context).pop();
   }
 }

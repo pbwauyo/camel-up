@@ -1,11 +1,13 @@
 import 'package:camel_up/cubit/auth_cubit.dart';
 import 'package:camel_up/cubit/auth_status_cubit.dart';
 import 'package:camel_up/cubit/auth_textfield_error_cubit.dart';
+import 'package:camel_up/cubit/team_results_cubit.dart';
 import 'package:camel_up/repos/user_repo.dart';
 import 'package:camel_up/screens/auth/login.dart';
 import 'package:camel_up/screens/auth/signup.dart';
 import 'package:camel_up/screens/home/home.dart';
 import 'package:camel_up/screens/welcome/welcome.dart';
+import 'package:camel_up/tests/tests.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -30,6 +32,9 @@ class App extends StatelessWidget {
         ),
         BlocProvider<AuthStatusCubit>(
           create: (context) => AuthStatusCubit()
+        ),
+        BlocProvider<TeamResultsCubit>(
+          create: (context) => TeamResultsCubit(userRepo: _userRepo)
         ),
       
       ],
@@ -58,6 +63,8 @@ class _BodyState extends State<Body> {
   @override
   void initState() {
     super.initState();
+
+    // Tests.uploadMockProfiles();
     
     Future.delayed(Duration.zero, (){
       final authCubit = context.bloc<AuthCubit>();

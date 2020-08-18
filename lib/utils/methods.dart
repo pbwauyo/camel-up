@@ -1,4 +1,6 @@
 import 'package:camel_up/cubit/auth_textfield_error_cubit.dart';
+import 'package:camel_up/models/profile.dart';
+import 'package:camel_up/utils/asset_names.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
@@ -77,6 +79,19 @@ showCustomSnackBar({BuildContext context, String message}){
       ),
     );
   Scaffold.of(context).showSnackBar(snackbar);
+}
+
+ImageProvider showImage(String image){
+  if(image != null && image.isNotEmpty){
+    return NetworkImage(image);
+  }
+  return AssetImage(AssetNames.APP_LOGO_PNG);
+}
+
+bool theresAMatch(Profile profile, String keyword){
+
+  return ((profile.lastName.toLowerCase().contains(keyword.toLowerCase()) 
+  || profile.firstName.toLowerCase().contains(keyword.toLowerCase())));
 }
 
 

@@ -3,30 +3,42 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 
 class Profile extends Equatable {
-  final String email;
-  final String password;
-  final String firstName;
-  final String lastName;
-  final String profileImage;
+  String email;
+  String password;
+  String firstName;
+  String lastName;
+  String profileImage;
+  String about;
+  String onlineStatus;
+  String deviceId;
 
   Profile(
       {@required this.email,
       @required this.password,
       @required this.firstName,
       @required this.lastName,
-      @required this.profileImage});
+      this.profileImage,
+      this.about,
+      this.onlineStatus,
+      this.deviceId});
 
   @override
   List<Object> get props => [
         email,
       ];
 
+  @override
+  bool get stringify => true;  
+
   Map<String, String> toMap() {
     return {
       "email": email,
       "firstName": firstName,
       "lastName": lastName,
-      "profileImage": profileImage
+      "profileImage": profileImage ?? "",
+      "about" : about ?? "",
+      "onlineStatus" : onlineStatus ?? "",
+      "deviceId" : deviceId ?? ""
     };
   }
 
@@ -36,6 +48,20 @@ class Profile extends Equatable {
         password: map["password"],
         firstName: map["firstName"],
         lastName: map["lastName"],
-        profileImage: map["profileImage"]);
+        profileImage : map["profileImage"] ?? "",
+        about : map["about"] ?? "",
+        onlineStatus: map["onlineStatus"] ?? "",
+        deviceId: map["deviceId"] ?? "" 
+      );
+  }
+
+  reset(){
+    email = "";
+    password = "";
+    firstName = "";
+    lastName = "";
+    profileImage = "";
+    about = "";
+    onlineStatus = "";
   }
 }
