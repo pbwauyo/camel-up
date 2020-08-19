@@ -9,3 +9,9 @@ class IdeaSteps{
   static const STEP_2 = "The idea";
   static const STEP_3 = "Audience";
 }
+
+class RadioButtonFields{
+  static const EVERYONE = "EVERYONE";
+  static const NO_ONE = "NO ONE";
+  static const SELECTION = "SELECTION";
+}

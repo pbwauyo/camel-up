@@ -140,7 +140,7 @@ class _SearchDialogState extends State<SearchDialog>{
 
                                   if(list != null && list.length > 0){
                                     context.bloc<SelectedMembersCubit>()
-                                         .finishTeamMemberSelection(list);
+                                         .finishTeamMemberSelection(context,list);
                                   }
                                   
                                 });

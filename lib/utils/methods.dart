@@ -1,8 +1,10 @@
 import 'package:camel_up/cubit/auth_textfield_error_cubit.dart';
 import 'package:camel_up/models/profile.dart';
 import 'package:camel_up/utils/asset_names.dart';
+import 'package:camel_up/utils/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:fluttertoast/fluttertoast.dart';
 
 bool emailIsvalid(String email){
   return email.isNotEmpty;
@@ -92,6 +94,14 @@ bool theresAMatch(Profile profile, String keyword){
 
   return ((profile.lastName.toLowerCase().contains(keyword.toLowerCase()) 
   || profile.firstName.toLowerCase().contains(keyword.toLowerCase())));
+}
+
+showCustomToast(String message){
+  Fluttertoast.showToast(
+    msg: message,
+    backgroundColor: AppColors.yellow,
+    textColor: AppColors.darkGreyTextColor
+  );
 }
 
 

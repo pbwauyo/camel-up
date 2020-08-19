@@ -2,7 +2,10 @@ import 'package:camel_up/cubit/auth_cubit.dart';
 import 'package:camel_up/cubit/auth_status_cubit.dart';
 import 'package:camel_up/cubit/auth_textfield_error_cubit.dart';
 import 'package:camel_up/cubit/enter_role_cubit.dart';
+import 'package:camel_up/cubit/need_teammates_cubit.dart';
+import 'package:camel_up/cubit/selected_members_count_cubit.dart';
 import 'package:camel_up/cubit/selected_members_cubit.dart';
+import 'package:camel_up/cubit/selected_radio_button_cubit.dart';
 import 'package:camel_up/cubit/team_results_cubit.dart';
 import 'package:camel_up/cubit/team_selection_cubit.dart';
 import 'package:camel_up/repos/user_repo.dart';
@@ -47,8 +50,16 @@ class App extends StatelessWidget {
         ),
         BlocProvider<SelectedMembersCubit>(
           create: (context) => SelectedMembersCubit()
-        )
-      
+        ),
+        BlocProvider<SelectedMembersCountCubit>(
+          create: (context) => SelectedMembersCountCubit()
+        ),
+        BlocProvider<SelectedRadioButtonCubit>(
+          create: (context) => SelectedRadioButtonCubit()
+        ),
+        BlocProvider<NeedTeammatesCubit>(
+          create: (context) => NeedTeammatesCubit()
+        ),
       ],
       child: MaterialApp(
           title: 'Camel Up',

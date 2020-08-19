@@ -1,3 +1,4 @@
+import 'package:camel_up/repos/user_repo.dart';
 import 'package:camel_up/screens/the_team/the_team.dart';
 import 'package:camel_up/shared_widgets/idea_steps_widget.dart';
 import 'package:camel_up/shared_widgets/next_button.dart';
@@ -7,6 +8,7 @@ import 'package:camel_up/utils/navigations.dart';
 import 'package:flutter/material.dart';
 
 class CreateIdea extends StatelessWidget{
+  final _userRepo = UserRepo();
 
   @override
   Widget build(BuildContext context) {
@@ -66,8 +68,14 @@ class CreateIdea extends StatelessWidget{
               }), 
               NextButton(
                 text: "next step", 
-                callback: (){
-                  Navigations.slideFromRight(context: context, newScreen: TheTeam());
+                callback: () async{
+                  final email = await _userRepo.getCurrentUserEmail();
+                  Navigations.slideFromRight(
+                    context: context, 
+                    newScreen: TheTeam(
+                      currentUserEmail: email,
+                    )
+                  );
                 }
               )
             ],

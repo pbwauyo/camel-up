@@ -1,3 +1,4 @@
+import 'package:camel_up/shared_widgets/search_dialog.dart';
 import 'package:flutter/material.dart';
 
 class Navigations{
@@ -26,5 +27,13 @@ class Navigations{
 
   static popScreen(BuildContext context){
     Navigator.of(context).pop();
+  }
+
+  static goToSearchDialog(BuildContext context){
+    Navigator.of(context).push(PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (BuildContext context, _, __) =>
+                      SearchDialog())
+                );
   }
 }

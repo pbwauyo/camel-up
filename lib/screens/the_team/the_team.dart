@@ -1,5 +1,6 @@
 import 'package:camel_up/cubit/selected_members_cubit.dart';
 import 'package:camel_up/repos/user_repo.dart';
+import 'package:camel_up/screens/the_idea/the_idea.dart';
 import 'package:camel_up/shared_widgets/add_button.dart';
 import 'package:camel_up/shared_widgets/circular_button.dart';
 import 'package:camel_up/shared_widgets/custom_progress_indicator.dart';
@@ -11,6 +12,7 @@ import 'package:camel_up/shared_widgets/search_dialog.dart';
 import 'package:camel_up/shared_widgets/selected_member.dart';
 import 'package:camel_up/shared_widgets/yellow_dot.dart';
 import 'package:camel_up/utils/colors.dart';
+import 'package:camel_up/utils/navigations.dart';
 import 'package:camel_up/utils/pref_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -46,7 +48,8 @@ class TheTeam extends StatelessWidget{
           Container(
             height: 450,
             padding: const EdgeInsets.only(left: 10, right: 10),
-            child: Column(
+            child: ListView(
+              shrinkWrap: true,
               children: [
                 SelectedMember(
                   email: currentUserEmail,
@@ -112,11 +115,7 @@ class TheTeam extends StatelessWidget{
               iconSize: 55, 
               iconColor: AppColors.yellow, 
               onTap: (){
-                PrefManager.clearTeamMembers();
-                Navigator.of(context).push(PageRouteBuilder(
-                  opaque: false,
-                  pageBuilder: (BuildContext context, _, __) =>
-                      SearchDialog()));
+                Navigations.goToSearchDialog(context);
               }
             ),
           ),
@@ -132,7 +131,12 @@ class TheTeam extends StatelessWidget{
 
                 NextButton(
                   text: "next step", 
-                  callback: null
+                  callback: (){
+                    Navigations.slideFromRight(
+                      context: context, 
+                      newScreen: TheIdea()
+                    );
+                  }
                 )
               ],
             ),

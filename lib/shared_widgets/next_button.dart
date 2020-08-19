@@ -3,9 +3,10 @@ import 'package:flutter/material.dart';
 
 class NextButton extends StatelessWidget{
   final String text;
+  final Color color;
   final VoidCallback callback;
 
-  NextButton({@required this.text, @required this.callback});
+  NextButton({@required this.text, @required this.callback, this.color});
 
   @override
   Widget build(BuildContext context) {
@@ -19,7 +20,7 @@ class NextButton extends StatelessWidget{
           width: 150,
           height: 50,
           decoration: BoxDecoration(
-            color: AppColors.lightGrey,
+            color: color ?? AppColors.lightGrey,
             borderRadius: BorderRadius.only(
                 topRight: Radius.circular(0.0),
                 bottomRight: Radius.circular(45.0),
