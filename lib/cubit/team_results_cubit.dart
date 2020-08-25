@@ -37,11 +37,16 @@ class TeamResultsCubit extends Cubit<TeamResultsState> {
       print("List: ${list.length}");
       _usersStreamController.add(list);
       emit(TeamResultsLoaded());
+
     }catch(error){
       print("Error: ${error.message}");
       emit(TeamResultsLoaded());
       emit(TeamResultsError(error: "${error.message}"));
     }
+  }
+
+  resetState(){
+    emit(TeamResultsInitial());
   }
 
 }

@@ -1,4 +1,5 @@
 import 'package:camel_up/cubit/auth_textfield_error_cubit.dart';
+import 'package:camel_up/models/idea.dart';
 import 'package:camel_up/models/profile.dart';
 import 'package:camel_up/utils/asset_names.dart';
 import 'package:camel_up/utils/colors.dart';
@@ -103,5 +104,7 @@ showCustomToast(String message){
     textColor: AppColors.darkGreyTextColor
   );
 }
+
+
 
 

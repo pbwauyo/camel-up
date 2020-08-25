@@ -52,6 +52,22 @@ class UserRepo {
         
   }
 
+  Future<QuerySnapshot> getUserProfileSnapshot(String email) async {
+
+    try{
+      return _firestore.collection("users")
+        .where("email", isEqualTo: email)
+        .getDocuments();  
+    }catch(error){
+      throw error;
+    }
+        
+  }
+
+  // Future<List<Profile>> getUsersFromList(List<String> emails){
+  //   emails.forEach((element) { })
+  // }
+
   Future<QuerySnapshot> getUserProfiles(){
     return _firestore.collection("users").getDocuments();
   }

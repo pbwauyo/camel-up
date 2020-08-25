@@ -2,12 +2,15 @@ import 'package:camel_up/cubit/auth_cubit.dart';
 import 'package:camel_up/cubit/auth_status_cubit.dart';
 import 'package:camel_up/cubit/auth_textfield_error_cubit.dart';
 import 'package:camel_up/cubit/enter_role_cubit.dart';
+import 'package:camel_up/cubit/idea_upload_cubit.dart';
 import 'package:camel_up/cubit/need_teammates_cubit.dart';
+import 'package:camel_up/cubit/privacy_members_cubit.dart';
 import 'package:camel_up/cubit/selected_members_count_cubit.dart';
 import 'package:camel_up/cubit/selected_members_cubit.dart';
 import 'package:camel_up/cubit/selected_radio_button_cubit.dart';
 import 'package:camel_up/cubit/team_results_cubit.dart';
 import 'package:camel_up/cubit/team_selection_cubit.dart';
+import 'package:camel_up/repos/idea_repo.dart';
 import 'package:camel_up/repos/user_repo.dart';
 import 'package:camel_up/screens/auth/login.dart';
 import 'package:camel_up/screens/auth/signup.dart';
@@ -24,6 +27,7 @@ void main() {
 
 class App extends StatelessWidget {
   final _userRepo = UserRepo();
+  final _ideaRepo = IdeaRepo();
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +63,12 @@ class App extends StatelessWidget {
         ),
         BlocProvider<NeedTeammatesCubit>(
           create: (context) => NeedTeammatesCubit()
+        ),
+        BlocProvider<PrivacyMembersCubit>(
+          create: (context) => PrivacyMembersCubit(_userRepo)
+        ),
+        BlocProvider<IdeaUploadCubit>(
+          create: (context) => IdeaUploadCubit(_ideaRepo)
         ),
       ],
       child: MaterialApp(

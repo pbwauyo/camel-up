@@ -17,16 +17,32 @@ import 'package:camel_up/utils/pref_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 
-class TheTeam extends StatelessWidget{
+class TheTeam extends StatefulWidget{
   final String currentUserEmail; 
- 
+
   TheTeam({@required this.currentUserEmail});
-  
+
+  @override
+  _TheTeamState createState() => _TheTeamState();
+}
+
+class _TheTeamState extends State<TheTeam> {
+  final _scrollController = ScrollController();
+
+  @override
+  void initState() {
+    super.initState();
+
+    if(_scrollController.hasClients){
+      _scrollController.jumpTo(50.0);
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: AppColors.darkBackground,
-      body: ListView(
+      body: Column(
         children: [
           Center(
             child: Container(
@@ -46,13 +62,13 @@ class TheTeam extends StatelessWidget{
           ),
 
           Container(
-            height: 450,
+            height: 400,
             padding: const EdgeInsets.only(left: 10, right: 10),
-            child: ListView(
-              shrinkWrap: true,
+            child: Column(
+              
               children: [
                 SelectedMember(
-                  email: currentUserEmail,
+                  email: widget.currentUserEmail,
                   role: "Chief Executive Officer",
                 ),
                 BlocBuilder<SelectedMembersCubit, SelectedMembersState>(
@@ -62,43 +78,49 @@ class TheTeam extends StatelessWidget{
                       return Container();
                     }
                     //else show list of team members
-                    return Container(
-                      child: StreamBuilder<List<Map<String, dynamic>>>(
-                        stream: context.bloc<SelectedMembersCubit>().selectedMembersStream,
-                        builder: (context, snapshot) {
+                    return Expanded(
+                      child: Container(
+                        child: StreamBuilder<List<Map<String, dynamic>>>(
+                          stream: context.bloc<SelectedMembersCubit>().selectedMembersStream,
+                          builder: (context, snapshot) {
 
-                          final results = snapshot.data;
+                            final results = snapshot.data;
 
-                          if (snapshot.hasData) {
+                            if (snapshot.hasData) {
 
-                            if(results.length <= 0){
-                              return Container();
-                            }else{
-                              return ListView.builder(
-                                shrinkWrap: true,
-                                itemCount: results.length,
-                                itemBuilder: (context, index){
-                                  final email = results[index]["email"];
-                                  final role = results[index]["role"];
-                                  return SelectedMember(
-                                    email: email, 
-                                    role: role
-                                  );
-                                },
+                              if(results.length <= 0){
+                                return Container();
+                              }else{
+                                return Scrollbar(
+                                  controller: _scrollController,
+                                  isAlwaysShown: true,
+                                  child: ListView.builder(
+                                    shrinkWrap: true,
+                                    itemCount: results.length,
+                                    itemBuilder: (context, index){
+                                      final email = results[index]["email"];
+                                      final role = results[index]["role"];
+                                      return SelectedMember(
+                                        email: email, 
+                                        role: role
+                                      );
+                                    },
+                                  ),
+                                );
+                              }
+                              
+                            }else if(snapshot.hasError){
+                              return Center(
+                                child: ErrorText(error: snapshot.error,)
+                              );
+                            }else {
+                              return Center(
+                                child: CustomProgressIndicator(color: AppColors.yellow)
                               );
                             }
                             
-                          }else if(snapshot.hasError){
-                            return Center(
-                              child: ErrorText(error: snapshot.error,)
-                            );
-                          }else {
-                            return Center(
-                              child: CustomProgressIndicator(color: AppColors.yellow)
-                            );
                           }
-                          
-                        }
+                        ),
                       ),
                     );
                   }

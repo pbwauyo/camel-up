@@ -44,7 +44,7 @@ class _TeamMembersRowState extends State<TeamMembersRow> {
                       height: 90,
                       child: ListView.builder(
                       shrinkWrap: true,
-                      itemCount: 3,
+                      itemCount: results.length > 3 ? 3 : results.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index){
                         return TeamMemberImage(

@@ -8,6 +8,7 @@ class PrefManager {
   static const _TEAM_MEMBERS = "TEAM_MEMBERS";
   static const _IDEA_DETAILS = "IDEA_DETAILS";
   static const _AUDIENCE_DETAILS = "AUDIENCE_DETAILS";
+  static const _PRIVACY_LIST = "PRIVACY_LIST";
 
   static saveTeamMember({@required String email, @required String role}) async{
     final prefs = await SharedPreferences.getInstance();
@@ -109,6 +110,42 @@ class PrefManager {
     SharedPreferences.getInstance().then((prefs) => 
       prefs.remove(_AUDIENCE_DETAILS)
     );
+  }
+
+  static Future<bool> savePrivacyList(String privacyMember) async{
+    final prefs = await SharedPreferences.getInstance();
+    String encodedString;
+  
+    if(prefs.containsKey(_PRIVACY_LIST)){
+      final savedList = prefs.getString(_PRIVACY_LIST);
+      final list = List<dynamic>.from(json.decode(savedList));
+      list.add(privacyMember);
+      encodedString = json.encode(list);
+    }else{
+      final list = List<String>();
+      list.add(privacyMember);
+      encodedString = json.encode(list);
+    }
+    return prefs.setString(_PRIVACY_LIST, encodedString);
+  }
+
+  static Future<List<dynamic>> getPrivacyList() async{
+    final prefs = await SharedPreferences.getInstance();
+    if(prefs.containsKey(_PRIVACY_LIST)){
+      final decodedList = List<dynamic>.from(json.decode(prefs.getString(_PRIVACY_LIST)));
+      return decodedList;
+    }
+    return [];
+  }
+
+  static clearIdea(){
+    SharedPreferences.getInstance()
+    .then((prefs){
+      prefs.remove(_AUDIENCE_DETAILS);
+      prefs.remove(_IDEA_DETAILS);
+      prefs.remove(_PRIVACY_LIST);
+      prefs.remove(_TEAM_MEMBERS);
+    });
   }
 }
 

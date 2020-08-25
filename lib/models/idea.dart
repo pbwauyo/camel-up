@@ -1,31 +1,31 @@
 class Idea {
   String id;
-  List<String> team;
+  List<Map<String, dynamic>> team;
   List<String> ideaKeywords;
   List<String> teammateKeywords;
   String title;
   String text;
   String audio;
   String video;
-  bool lookinForTeamates;
+  List<String> privacyList;
   String privacy;
 
   Idea({this.id, this.team, this.ideaKeywords, 
   this.teammateKeywords, this.title, 
   this.text, this.audio, this.video ,
-  this.lookinForTeamates, this.privacy});
+  this.privacyList, this.privacy});
 
   factory Idea.fromMap(Map<String, dynamic> map){
    return Idea(
      id: map["id"],
-     team: List<String>.from(map["team"]),
-     ideaKeywords: List<String>.from(map["ideaKeywords"]),
-     teammateKeywords: List<String>.from(map["teammateKeywords"]),
+     team: List<Map<String, dynamic>>.from(map["team"] ?? []),
+     ideaKeywords: List<String>.from(map["ideaKeywords"] ?? []),
+     teammateKeywords: List<String>.from(map["teammateKeywords"] ?? []),
      title: map["title"],
      text: map["text"],
      audio: map["audio"] ?? "",
      video: map["video"] ?? "",
-     lookinForTeamates: map["lookingForTeammates"].toString() == "true",
+     privacyList: map["privacyList"] ?? [],
      privacy: map["privacy"]
    );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
   }
@@ -40,7 +40,7 @@ class Idea {
       "text" : text,
       "audio" : audio ?? "",
       "video" : video ?? "",
-      "lookingForTeammates" : lookinForTeamates,
+      "privacyList" : privacyList,
       "privacy" : privacy
     };
   }
@@ -54,7 +54,6 @@ class Idea {
     text = "";
     audio = "";
     video = "";
-    lookinForTeamates =  false;
     privacy = "";
   }
 }

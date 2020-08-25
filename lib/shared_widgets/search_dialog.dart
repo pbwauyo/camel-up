@@ -144,6 +144,7 @@ class _SearchDialogState extends State<SearchDialog>{
                                   }
                                   
                                 });
+                              context.bloc<TeamResultsCubit>().resetState();  
                             },
                           ),
                         ),
