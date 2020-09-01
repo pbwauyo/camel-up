@@ -8,7 +8,7 @@ class ErrorText extends StatelessWidget{
   @override
   Widget build(BuildContext context) {
     return Container(
-      child: Text("${error.message ?? error}",
+      child: Text("$error",
         style: TextStyle(
           color: Colors.red,
           fontSize: 18,

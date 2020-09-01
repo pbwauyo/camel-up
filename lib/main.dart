@@ -2,6 +2,7 @@ import 'package:camel_up/cubit/auth_cubit.dart';
 import 'package:camel_up/cubit/auth_status_cubit.dart';
 import 'package:camel_up/cubit/auth_textfield_error_cubit.dart';
 import 'package:camel_up/cubit/enter_role_cubit.dart';
+import 'package:camel_up/cubit/evaluation_percentage_cubit.dart';
 import 'package:camel_up/cubit/idea_upload_cubit.dart';
 import 'package:camel_up/cubit/need_teammates_cubit.dart';
 import 'package:camel_up/cubit/privacy_members_cubit.dart';
@@ -70,6 +71,8 @@ class App extends StatelessWidget {
         BlocProvider<IdeaUploadCubit>(
           create: (context) => IdeaUploadCubit(_ideaRepo)
         ),
+        BlocProvider<EvaluationPercentageCubit>(
+          create: (context) => EvaluationPercentageCubit())
       ],
       child: MaterialApp(
           title: 'Camel Up',

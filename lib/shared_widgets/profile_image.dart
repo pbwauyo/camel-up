@@ -6,16 +6,16 @@ import 'package:camel_up/utils/colors.dart';
 import 'package:camel_up/utils/methods.dart';
 import 'package:flutter/material.dart';
 
-class TeamMemberImage extends StatefulWidget{
+class ProfileImage extends StatefulWidget{
   final String email;
   final VoidCallback onTap;
 
-  TeamMemberImage({@required this.email, this.onTap});
+  ProfileImage({@required this.email, this.onTap});
   @override
-  _TeamMemberImageState createState() => _TeamMemberImageState();
+  _ProfileImageState createState() => _ProfileImageState();
 }
 
-class _TeamMemberImageState extends State<TeamMemberImage> {
+class _ProfileImageState extends State<ProfileImage> {
 
   Future<Profile> _getUserProfile;
   final _userRepo = UserRepo();
@@ -29,6 +29,7 @@ class _TeamMemberImageState extends State<TeamMemberImage> {
 
   @override
   Widget build(BuildContext context) {
+
     return FutureBuilder<Profile>(
       future: _getUserProfile,
       builder: (context, snapshot){
