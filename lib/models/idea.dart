@@ -15,11 +15,13 @@ class Idea {
   String commentsCount;
   String likesCount;
   bool liked;
+  String averageEvaluation;
 
   Idea({this.id, this.team, this.ideaKeywords, 
   this.teammateKeywords, this.title, 
   this.text, this.audio, this.video ,
-  this.privacyList, this.privacy, this.timestamp, this.commentsCount, this.likesCount, this.liked});
+  this.privacyList, this.privacy, this.timestamp, this.commentsCount, 
+  this.likesCount, this.liked, this.averageEvaluation});
 
   factory Idea.fromMap(Map<String, dynamic> map){
    return Idea(
@@ -36,7 +38,8 @@ class Idea {
      timestamp: map["timestamp"] ?? "",
      commentsCount: map["commentsCount"] ?? "0",
      likesCount: map["likesCount"] ?? "0",
-     liked: map["liked"].toString() == "true"
+     liked: map["liked"].toString() == "true",
+     averageEvaluation: map["averageEvaluation"] ?? "0.0"
    );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
   }
 
@@ -52,7 +55,7 @@ class Idea {
       "video" : video ?? "",
       "privacyList" : privacyList,
       "privacy" : privacy,
-      "timestamp" : Timestamp.now().toString()
+      "timestamp" : Timestamp.now().nanoseconds.toString()
     };
   }
 

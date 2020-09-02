@@ -25,12 +25,14 @@ class UserRepo {
     return Future.wait([_firebaseAuth.signOut()]);
   }
 
-  Future<void> getCurrentUserProfile() async {
+  Future<Profile> getCurrentUserProfile() async {
     String email = (await _firebaseAuth.currentUser()).email;
-    return _firestore
+    final snapshot = await _firestore
         .collection("users")
         .where("email", isEqualTo: email)
         .getDocuments();
+    final doc = snapshot.documents[0];
+    return Profile.fromMap(doc.data);
   }
 
   Future<FirebaseUser> getCurrentUser() async{

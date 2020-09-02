@@ -33,7 +33,7 @@ class CommentCard extends StatelessWidget{
                     decoration: BoxDecoration(
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
-                        image: showImage(""),
+                        image: showImage(comment.commenterImageUrl),
                         fit: BoxFit.fill
                       )
                     ),
@@ -45,20 +45,20 @@ class CommentCard extends StatelessWidget{
                     children: [
                       Container(
                         margin: const EdgeInsets.only(bottom: 10, top: 10),
-                        child: Text("A Einstein",
+                        child: Text(comment.commenterName,
                           style: TextStyle(
                             color: Colors.black
                           ), 
                         ),
                       ),
 
-                      Container(
-                        child: Text("A Einstein",
-                          style: TextStyle(
-                            color: Colors.black
-                          ), 
-                        ),
-                      ),
+                      // Container(
+                      //   child: Text("A Einstein",
+                      //     style: TextStyle(
+                      //       color: Colors.black
+                      //     ), 
+                      //   ),
+                      // ),
                       
                       Container(
                         margin: const EdgeInsets.only(top: 8),
@@ -77,7 +77,7 @@ class CommentCard extends StatelessWidget{
 
               Container(
                 margin: const EdgeInsets.only(left: 10, right: 10, top: 15, bottom: 20),
-                child: Text("It has come the time to restart the start up environment …more",
+                child: Text(comment.text,
                   style: TextStyle(
                     color: Colors.black
                   ), 

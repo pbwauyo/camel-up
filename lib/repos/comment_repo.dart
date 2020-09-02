@@ -28,6 +28,13 @@ class CommentRepo {
     return documents.map((doc) => Comment.fromMap(doc.data)).toList();  
   }
 
+  Stream<QuerySnapshot> getCommentsAsStream(String ideaId){
+    return _firestore.collection("comments")
+    .where("ideaId", isEqualTo: ideaId)
+    .orderBy("timestamp", descending: false)
+    .snapshots();
+  } 
+
   Future<void> postComment(Comment comment) async{
     final ref = _firestore.collection("comments").document();
     comment.id = ref.documentID;

@@ -72,6 +72,66 @@ class IdeaRepo {
     return idea.commentsCount;
   }
 
+  Future<String> getIdeaEvaluation({@required String evaluatorEmail, @required String ideaId}) async{
+    final snapshot = await _firestore.collection("evaluations")
+                .where("evaluatorEmail", isEqualTo: evaluatorEmail)
+                .where("ideaId", isEqualTo: ideaId)
+                .getDocuments();
+    final docs = snapshot.documents;
+    return docs[0]["evaluation"].toString();
+  }
+
+  Future<String> getIdeaAverageEvaluation({@required String ideaId}) async{
+    final snapshot = await _firestore.collection("ideas").document(ideaId).get();
+    return snapshot.data["averageEvaluation"].toString();
+  }
+
+  Future<void> updateIdeaAverageEvaluation({@required String ideaId, @required String evaluation}) async{
+    final ref = _firestore.collection("ideas").document(ideaId);
+    final currentEvaluation = double.parse(await getIdeaAverageEvaluation(ideaId: ideaId));
+    final int evalutationCount = await getCurrentEvaluationCount(ideaId);
+    final newEvaluation = (currentEvaluation+(double.parse(evaluation)))/evalutationCount;
+    await ref.setData({
+      "evaluation" : newEvaluation.toString()
+    }, merge: true);
+  }
+
+  Future<void> updateIdeaEvaluationCount({@required String ideaId}) async{
+    final snapshot = await _firestore.collection("ideas").document(ideaId).get();
+    final currentEvaluationCount = int.parse(snapshot.data["evaluationCount"]);
+    await _firestore.collection("ideas").document(ideaId).setData({
+      "evaluationCount" : (currentEvaluationCount+1)
+    }, merge: true);
+  }
+
+  Future<int> getCurrentEvaluationCount(String ideaId) async{
+    final snapshot = await _firestore.collection("ideas").document(ideaId).get();
+    return int.parse(snapshot.data["evaluationCount"]);
+  }
+
+  Future<void> saveIdeaEvaluation({@required String evaluatorEmail, 
+        @required String ideaId, @required String evaluation}) async{
+    final ref = _firestore.collection("evaluations");
+    final snapshot = await ref.where("evaluatorEmail", isEqualTo: evaluatorEmail)
+                .where("ideaId", isEqualTo: ideaId)
+                .getDocuments();
+
+    final docs = snapshot.documents;
+    if(docs.length >= 1) { //if already exists
+      docs[0].reference.setData({
+        "evaluation" : evaluation
+      }, merge: true);
+    }else {  //else
+      ref.add({
+        "evaluatorEmail" : evaluatorEmail,
+        "ideaId" : ideaId,
+        "evaluation" : evaluation
+      });
+    }
+    updateIdeaEvaluationCount(ideaId: ideaId);
+    updateIdeaAverageEvaluation(ideaId: ideaId, evaluation: evaluation);
+  }
+
   Future<void> updateCommentCount({@required String ideaId, @required bool increment}) async{
     final ref = _firestore.collection("ideas").document(ideaId);
     final snapshot = await ref.get();
