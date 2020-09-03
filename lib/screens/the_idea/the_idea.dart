@@ -25,9 +25,7 @@ class _TheIdeaState extends State<TheIdea>{
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.darkBackground,
-      body: ListView(
+    return ListView(
         children: [
           Container(
             margin: const EdgeInsets.only(top: 40),
@@ -136,7 +134,6 @@ class _TheIdeaState extends State<TheIdea>{
           )
           
         ],
-      ),
-    );
+      );
   }
 }

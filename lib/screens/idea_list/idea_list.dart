@@ -28,9 +28,7 @@ class _IdeaListState extends State<IdeaList> {
 
   @override
   Widget build(BuildContext context) {
-    return Scaffold(
-      backgroundColor: AppColors.darkBackground,
-      body: FutureBuilder<List<Idea>>(
+    return FutureBuilder<List<Idea>>(
         future: ideasFuture,
         builder: (context, snapshot) {
           if(snapshot.hasData){
@@ -52,7 +50,6 @@ class _IdeaListState extends State<IdeaList> {
 
           return Center(child: CustomProgressIndicator());
         }
-      ),
-    );
+      );
   }
 }

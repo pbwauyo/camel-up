@@ -15,3 +15,10 @@ class RadioButtonFields{
   static const NO_ONE = "NO ONE";
   static const SELECTION = "SELECTION";
 }
+
+enum SelectedBottomBarBtn{
+  CREATE_IDEA,
+  CREATE_POST,
+  IDEA_LIST,
+  SEARCH
+}

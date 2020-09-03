@@ -1,6 +1,7 @@
 import 'package:camel_up/cubit/auth_cubit.dart';
 import 'package:camel_up/cubit/auth_status_cubit.dart';
 import 'package:camel_up/cubit/auth_textfield_error_cubit.dart';
+import 'package:camel_up/cubit/bottom_bar_button_cubit.dart';
 import 'package:camel_up/cubit/enter_role_cubit.dart';
 import 'package:camel_up/cubit/evaluation_percentage_cubit.dart';
 import 'package:camel_up/cubit/idea_upload_cubit.dart';
@@ -72,7 +73,10 @@ class App extends StatelessWidget {
           create: (context) => IdeaUploadCubit(_ideaRepo)
         ),
         BlocProvider<EvaluationPercentageCubit>(
-          create: (context) => EvaluationPercentageCubit())
+          create: (context) => EvaluationPercentageCubit()),
+
+        BlocProvider<BottomBarButtonCubit>(
+          create: (context) => BottomBarButtonCubit())
       ],
       child: MaterialApp(
           title: 'Camel Up',
