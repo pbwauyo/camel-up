@@ -1,9 +1,11 @@
 import 'package:camel_up/models/idea.dart';
 import 'package:camel_up/screens/idea_details/widgets/idea_card_footer.dart';
+import 'package:camel_up/screens/profile_page/profile_page.dart';
 import 'package:camel_up/screens/the_idea/widgets/team_member_image.dart';
 import 'package:camel_up/shared_widgets/camel_button.dart';
 import 'package:camel_up/shared_widgets/custom_badge.dart';
 import 'package:camel_up/utils/colors.dart';
+import 'package:camel_up/utils/navigations.dart';
 import 'package:flutter/material.dart';
 
 class IdeaCard extends StatelessWidget{
@@ -39,8 +41,15 @@ class IdeaCard extends StatelessWidget{
                       itemCount: idea.team.length > 3 ? 3 : idea.team.length,
                       scrollDirection: Axis.horizontal,
                       itemBuilder: (context, index){
+                          final email = idea.team[index]["email"].toString();
                           return TeamMemberImage(
-                            email: idea.team[index]["email"].toString()
+                            email: email,
+                            onTap: () {
+                              Navigations.slideFromRight(
+                                context: context ,
+                                newScreen: ProfilePage(email: email)
+                              );
+                            },
                           );
                         }
                       ),

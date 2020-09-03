@@ -8,6 +8,10 @@ import 'package:camel_up/utils/colors.dart';
 import 'package:flutter/material.dart';
 
 class IdeaList extends StatefulWidget{
+  final String email;
+
+  IdeaList({@required this.email});
+
   @override
   _IdeaListState createState() => _IdeaListState();
 }
@@ -19,7 +23,7 @@ class _IdeaListState extends State<IdeaList> {
   @override
   void initState() {
     super.initState();
-    ideasFuture = _ideaRepo.getAllIdeas();
+    ideasFuture = _ideaRepo.getAllIdeasForUser(widget.email);
   }
 
   @override

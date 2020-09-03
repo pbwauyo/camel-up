@@ -7,4 +7,5 @@ class AssetNames {
   static const LIGHTBULB = "$IMAGES_BASE_URI/lightbulb.png";
   static const CAMEL = "$IMAGES_BASE_URI/camel.png";
   static const LIKE = "$IMAGES_BASE_URI/like.png";
+  static const COVER_PIC = "$IMAGES_BASE_URI/cover_pic.png";
 }

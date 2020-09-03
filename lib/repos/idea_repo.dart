@@ -43,10 +43,36 @@ class IdeaRepo {
     return ideaList;                 
   }
 
-  Future<Idea> getIdeaById(String id) async{
+  Future<List<Idea>> getAllIdeasForUser(String email) async{
     final snapshot = await _firestore.collection("ideas")
-                       .document(id).get();
-    return Idea.fromMap(snapshot.data);
+                                .where("email", isEqualTo: email)
+                                .getDocuments();
+    final ideaList = snapshot.documents.map(
+                      (doc) => Idea.fromMap(doc.data)
+                     ).toList();
+    return ideaList;                 
+  }
+
+  Future<Idea> getIdeaById(String id) async{
+    final docSnapshot = await _firestore.collection("ideas")
+                                        .document(id).get();
+   
+    return Idea.fromMap(docSnapshot.data);
+  }
+
+  Future<Idea> getFirstUserIdea(String email) async{
+    final querySnapshot = await _firestore.collection("ideas")
+                                    .where("email", isEqualTo: email)
+                                    .limit(1)
+                                    .getDocuments();
+                                    
+    if(querySnapshot.documents.length > 0){
+      final docSnapshot = querySnapshot.documents[0];   
+      return Idea.fromMap(docSnapshot.data);  
+    } 
+    else {
+      return Idea();
+    }          
   }
 
   Future<void> toggleLikeIdea(String id) async{
