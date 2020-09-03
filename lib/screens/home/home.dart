@@ -26,7 +26,7 @@ class Home extends StatelessWidget{
             child: BlocBuilder<BottomBarButtonCubit, BottomBarButtonState>(
               builder: (context, state){
                 if (state is BottomBarButtonCreateIdea){
-                  return TheIdea();
+                  return CreateIdea();
                 }
                 else if(state is BottomBarButtonCreatePost){
                   return CreatePost();

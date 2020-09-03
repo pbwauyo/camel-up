@@ -9,4 +9,8 @@ class AssetNames {
   static const LIKE = "$IMAGES_BASE_URI/like.png";
   static const COVER_PIC = "$IMAGES_BASE_URI/cover_pic.png";
   static const CAMEL_SVG = "$IMAGES_BASE_URI/camel_svg.svg";
+  static const LIKE_SVG = "$IMAGES_BASE_URI/like_svg.svg";
+  static const WOMAN_SVG = "$IMAGES_BASE_URI/woman_svg.svg";
+  static const BOARD_SVG = "$IMAGES_BASE_URI/board_svg.svg";
+  static const EDIT_SVG = "$IMAGES_BASE_URI/edit_svg.svg";
 }
