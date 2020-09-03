@@ -50,7 +50,7 @@ class _TheAudienceState extends State<TheAudience> {
 
             Container(
               margin: const EdgeInsets.fromLTRB(20, 10, 20, 10),
-              child: Text("Tick the box if you arelooking for teammates",
+              child: Text("Tick the box if you are looking for teammates",
                 style: TextStyle(
                   color: AppColors.lightGrey,
                   fontSize: 20

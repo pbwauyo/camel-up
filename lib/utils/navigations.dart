@@ -1,3 +1,4 @@
+import 'package:camel_up/screens/create_post/post_search_dialog.dart';
 import 'package:camel_up/screens/privacy_list_dialog/privacy_list_dialog.dart';
 import 'package:camel_up/shared_widgets/search_dialog.dart';
 import 'package:flutter/material.dart';
@@ -43,6 +44,14 @@ class Navigations{
                   opaque: false,
                   pageBuilder: (BuildContext context, _, __) =>
                       PrivacyListDialog())
+                );
+  }
+
+   static goToPostPrivacyListDialog(BuildContext context){
+    Navigator.of(context).push(PageRouteBuilder(
+                  opaque: false,
+                  pageBuilder: (BuildContext context, _, __) =>
+                      PostSearchDialog())
                 );
   }
 }

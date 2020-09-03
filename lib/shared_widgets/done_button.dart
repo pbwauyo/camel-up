@@ -9,7 +9,7 @@ class DoneButton extends StatefulWidget{
   final String text;
   final Color color;
   final VoidCallback onTap;
-  final IdeaUploadState state;
+  final dynamic state;
   final bool enabled;
 
   DoneButton({this.text, this.color, 

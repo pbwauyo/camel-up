@@ -34,7 +34,7 @@ class _IdeaListState extends State<IdeaList> {
           if(snapshot.hasData){
             final data = snapshot.data;
             if(data.length <= 0){
-              return Center(child: EmptyResultsText());
+              return Center(child: EmptyResultsText(message: "No Ideas yet",));
             }
             return Container(
               child: ListView.builder(

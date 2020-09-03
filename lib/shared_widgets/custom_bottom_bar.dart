@@ -15,47 +15,50 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
   @override
   Widget build(BuildContext context) {
     return Material(
-      elevation: 3,
+      elevation: 8,
       color: AppColors.darkBackground,
       child: BlocBuilder<BottomBarButtonCubit, BottomBarButtonState>(
         builder: (context, state) {
           final cubit = context.bloc<BottomBarButtonCubit>();
-          return Row(
-            mainAxisAlignment: MainAxisAlignment.spaceAround,
-            children: [
-              BottomBarButton(
-                onTap: (){
-                  cubit.goToSearch();
-                }, 
-                isSelected: state is BottomBarButtonSearch,
-                icon: Icons.search,
-              ),
+          return Container(
+            padding: const EdgeInsets.only(top: 5),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: [
+                BottomBarButton(
+                  onTap: (){
+                    cubit.goToSearch();
+                  }, 
+                  isSelected: state is BottomBarButtonSearch,
+                  icon: Icons.search,
+                ),
 
-              BottomBarButton(
-                onTap: (){
-                  cubit.goToCreatePost();
-                }, 
-                isSelected: state is BottomBarButtonCreatePost,
-                icon: Icons.add
-              ),
+                BottomBarButton(
+                  onTap: (){
+                    cubit.goToCreatePost();
+                  }, 
+                  isSelected: state is BottomBarButtonCreatePost,
+                  icon: Icons.add
+                ),
 
-              BottomBarButton(
-                onTap: (){
-                  cubit.goToCreateIdea();
-                }, 
-                isSelected: state is BottomBarButtonCreateIdea,
-                //image: AssetImage(AssetNames.LIGHTBULB),
-                icon: Icons.lightbulb_outline,
-              ),
+                BottomBarButton(
+                  onTap: (){
+                    cubit.goToCreateIdea();
+                  }, 
+                  isSelected: state is BottomBarButtonCreateIdea,
+                  //image: AssetImage(AssetNames.LIGHTBULB),
+                  icon: Icons.lightbulb_outline,
+                ),
 
-              BottomBarButton(
-                onTap: (){
-                  cubit.goToIdeaList();
-                }, 
-                isSelected: state is BottomBarButtonIdeaList,
-                // image: SvgPicture.asset(),
-              )
-            ],
+                BottomBarButton(
+                  onTap: (){
+                    cubit.goToIdeaList();
+                  }, 
+                  isSelected: state is BottomBarButtonIdeaList,
+                  // image: SvgPicture.asset(),
+                )
+              ],
+            ),
           );
         }
       ),

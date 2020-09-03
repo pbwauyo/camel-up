@@ -6,6 +6,7 @@ import 'package:camel_up/cubit/enter_role_cubit.dart';
 import 'package:camel_up/cubit/evaluation_percentage_cubit.dart';
 import 'package:camel_up/cubit/idea_upload_cubit.dart';
 import 'package:camel_up/cubit/need_teammates_cubit.dart';
+import 'package:camel_up/cubit/post_upload_cubit.dart';
 import 'package:camel_up/cubit/privacy_members_cubit.dart';
 import 'package:camel_up/cubit/selected_members_count_cubit.dart';
 import 'package:camel_up/cubit/selected_members_cubit.dart';
@@ -13,6 +14,7 @@ import 'package:camel_up/cubit/selected_radio_button_cubit.dart';
 import 'package:camel_up/cubit/team_results_cubit.dart';
 import 'package:camel_up/cubit/team_selection_cubit.dart';
 import 'package:camel_up/repos/idea_repo.dart';
+import 'package:camel_up/repos/post_repo.dart';
 import 'package:camel_up/repos/user_repo.dart';
 import 'package:camel_up/screens/auth/login.dart';
 import 'package:camel_up/screens/auth/signup.dart';
@@ -30,6 +32,7 @@ void main() {
 class App extends StatelessWidget {
   final _userRepo = UserRepo();
   final _ideaRepo = IdeaRepo();
+  final _postRepo = PostRepo();
 
   @override
   Widget build(BuildContext context) {
@@ -76,7 +79,10 @@ class App extends StatelessWidget {
           create: (context) => EvaluationPercentageCubit()),
 
         BlocProvider<BottomBarButtonCubit>(
-          create: (context) => BottomBarButtonCubit())
+          create: (context) => BottomBarButtonCubit()),
+
+        BlocProvider<PostUploadCubit>(
+          create: (context) => PostUploadCubit(_postRepo))
       ],
       child: MaterialApp(
           title: 'Camel Up',

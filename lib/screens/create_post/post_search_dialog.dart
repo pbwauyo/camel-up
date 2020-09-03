@@ -7,7 +7,6 @@ import 'package:camel_up/models/profile.dart';
 import 'package:camel_up/shared_widgets/cancel_button.dart';
 import 'package:camel_up/shared_widgets/search_result.dart';
 import 'package:camel_up/shared_widgets/search_textfield.dart';
-import 'package:camel_up/shared_widgets/selected_team_member.dart';
 import 'package:camel_up/utils/colors.dart';
 import 'package:camel_up/utils/methods.dart';
 import 'package:camel_up/utils/navigations.dart';
@@ -16,12 +15,12 @@ import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
 
-class PrivacyListDialog extends StatefulWidget{
+class PostSearchDialog extends StatefulWidget{
   @override
-  _PrivacyListDialogState createState() => _PrivacyListDialogState();
+  _PostSearchDialogState createState() => _PostSearchDialogState();
 }
 
-class _PrivacyListDialogState extends State<PrivacyListDialog> {
+class _PostSearchDialogState extends State<PostSearchDialog> {
   @override
   Widget build(BuildContext context) {
     return BackdropFilter(
@@ -80,7 +79,7 @@ class _PrivacyListDialogState extends State<PrivacyListDialog> {
                                     return SearchResult(
                                       onTap: () async{
                                         try{
-                                          await PrefManager.savePrivacyList(profile.email);
+                                          await PrefManager.savePostPrivacyList(profile.email);
                                           showCustomToast("User added successfully");
                                         }catch(error){
                                           showCustomToast(error.message);
@@ -138,7 +137,7 @@ class _PrivacyListDialogState extends State<PrivacyListDialog> {
                         onTap: (){
                           Navigations.popScreen(context);
                           context.bloc<TeamResultsCubit>().resetState();
-                          PrefManager.getPrivacyList()
+                          PrefManager.getPostPrivacyList()
                           .then((list){
                             print("List: $list");
                             if(list != null && list.length > 0){

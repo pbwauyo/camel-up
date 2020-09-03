@@ -7,8 +7,11 @@ import 'package:shared_preferences/shared_preferences.dart';
 class PrefManager {
   static const _TEAM_MEMBERS = "TEAM_MEMBERS";
   static const _IDEA_DETAILS = "IDEA_DETAILS";
+  static const _POST_DETAILS = "POST_DETAILS";
   static const _AUDIENCE_DETAILS = "AUDIENCE_DETAILS";
+  static const _POST_PRIVACY_DETAILS = "POST_PRIVACY_DETAILS";
   static const _PRIVACY_LIST = "PRIVACY_LIST";
+  static const _POST_PRIVACY_LIST = "POST_PRIVACY_LIST";
 
   static saveTeamMember({@required String email, @required String role}) async{
     final prefs = await SharedPreferences.getInstance();
@@ -64,6 +67,32 @@ class PrefManager {
       });
   }
 
+  static savePostDetails({@required List<String> keywords, 
+    @required String title, @required String text}){
+
+      Map<String, dynamic> details = {
+        PrefKeys.KEYWORDS : keywords,
+        PrefKeys.TITLE : title,
+        PrefKeys.TEXT : text
+      };
+
+      String encodedString = json.encode(details);
+      SharedPreferences.getInstance().then((prefs) {
+        prefs.setString(_POST_DETAILS, encodedString);
+      });
+  }
+
+  static Future<Map<String, dynamic>> getPostDetails() async{
+    final prefs = await SharedPreferences.getInstance();
+
+    if(prefs.containsKey(_POST_DETAILS)){
+      final savedDetails = prefs.getString(_POST_DETAILS);
+      final details = Map<String, dynamic>.from(json.decode(savedDetails));
+      return details;
+    }
+    return {};
+  }
+
   static Future<Map<String, dynamic>> getIdeaDetails() async{
     final prefs = await SharedPreferences.getInstance();
 
@@ -77,6 +106,10 @@ class PrefManager {
 
   static clearIdeaDetails(){
     SharedPreferences.getInstance().then((prefs) => prefs.remove(_IDEA_DETAILS));
+  }
+
+  static clearPostDetails(){
+    SharedPreferences.getInstance().then((prefs) => prefs.remove(_POST_DETAILS));
   }
 
   static saveAudienceDetails({List<String> teamKeywords, 
@@ -93,6 +126,32 @@ class PrefManager {
       .then((prefs){
         prefs.setString(_AUDIENCE_DETAILS, encodedString);
       });
+  }
+
+  static savePostPrivacyDetails({ 
+      @required String privacy, List<String> privacyList}) {
+      
+      Map<String, dynamic> audienceDetails = {
+        PrefKeys.PRIVACY : privacy,
+        PrefKeys.PRIVACY_LIST : privacyList ?? []
+      };
+
+      String encodedString = json.encode(audienceDetails);
+      SharedPreferences.getInstance()
+      .then((prefs){
+        prefs.setString(_POST_PRIVACY_DETAILS, encodedString);
+      });
+  }
+
+   static Future<Map<String, dynamic>> getPostPrivacyDetails() async{
+    final prefs = await SharedPreferences.getInstance();
+
+    if(prefs.containsKey(_POST_PRIVACY_DETAILS)){
+      final savedDetails = prefs.getString(_POST_PRIVACY_DETAILS);
+      final details = Map<String, dynamic>.from(json.decode(savedDetails));
+      return details;
+    }
+    return {};
   }
 
   static Future<Map<String, dynamic>> getAudienceDetails() async{
@@ -129,6 +188,23 @@ class PrefManager {
     return prefs.setString(_PRIVACY_LIST, encodedString);
   }
 
+  static Future<bool> savePostPrivacyList(String privacyMember) async{
+    final prefs = await SharedPreferences.getInstance();
+    String encodedString;
+  
+    if(prefs.containsKey(_POST_PRIVACY_LIST)){
+      final savedList = prefs.getString(_POST_PRIVACY_LIST);
+      final list = List<dynamic>.from(json.decode(savedList));
+      list.add(privacyMember);
+      encodedString = json.encode(list);
+    }else{
+      final list = List<String>();
+      list.add(privacyMember);
+      encodedString = json.encode(list);
+    }
+    return prefs.setString(_POST_PRIVACY_LIST, encodedString);
+  }
+
   static Future<List<dynamic>> getPrivacyList() async{
     final prefs = await SharedPreferences.getInstance();
     if(prefs.containsKey(_PRIVACY_LIST)){
@@ -136,6 +212,23 @@ class PrefManager {
       return decodedList;
     }
     return [];
+  }
+
+  static Future<List<dynamic>> getPostPrivacyList() async{
+    final prefs = await SharedPreferences.getInstance();
+    if(prefs.containsKey(_POST_PRIVACY_LIST)){
+      final decodedList = List<dynamic>.from(json.decode(prefs.getString(_POST_PRIVACY_LIST)));
+      return decodedList;
+    }
+    return [];
+  }
+
+  static clearPost(){
+    SharedPreferences.getInstance()
+    .then((prefs){
+      prefs.remove(_POST_DETAILS);
+      prefs.remove(_POST_PRIVACY_LIST);
+    });
   }
 
   static clearIdea(){
