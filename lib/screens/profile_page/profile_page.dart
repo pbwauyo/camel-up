@@ -18,8 +18,9 @@ import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget{
   final String email;
+  final bool isCurrentUser;
 
-  ProfilePage({@required this.email});
+  ProfilePage({@required this.email, this.isCurrentUser = false});
 
   @override
   _ProfilePageState createState() => _ProfilePageState();

@@ -13,4 +13,8 @@ class AssetNames {
   static const WOMAN_SVG = "$IMAGES_BASE_URI/woman_svg.svg";
   static const BOARD_SVG = "$IMAGES_BASE_URI/board_svg.svg";
   static const EDIT_SVG = "$IMAGES_BASE_URI/edit_svg.svg";
+  static const DONATE_SVG = "$IMAGES_BASE_URI/donate_svg.svg";
+  static const PROFILE_SVG = "$IMAGES_BASE_URI/profile_svg.svg";
+  static const ABOUT_SVG = "$IMAGES_BASE_URI/about_svg.svg";
+  static const HELP_SVG = "$IMAGES_BASE_URI/help_svg.svg";
 }

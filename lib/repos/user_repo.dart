@@ -35,6 +35,12 @@ class UserRepo {
     return Profile.fromMap(doc.data);
   }
 
+  Stream<QuerySnapshot> getUserAsStream(String email) {
+    return _firestore.collection("users")
+                     .where("email", isEqualTo: email)
+                     .snapshots();
+  }
+
   Future<FirebaseUser> getCurrentUser() async{
     try{
       return (await _firebaseAuth.currentUser()); 

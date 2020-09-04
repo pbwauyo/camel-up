@@ -5,6 +5,7 @@ import 'package:camel_up/cubit/bottom_bar_button_cubit.dart';
 import 'package:camel_up/cubit/enter_role_cubit.dart';
 import 'package:camel_up/cubit/evaluation_percentage_cubit.dart';
 import 'package:camel_up/cubit/idea_upload_cubit.dart';
+import 'package:camel_up/cubit/nav_menu_item_cubit.dart';
 import 'package:camel_up/cubit/need_teammates_cubit.dart';
 import 'package:camel_up/cubit/post_upload_cubit.dart';
 import 'package:camel_up/cubit/privacy_members_cubit.dart';
@@ -82,7 +83,10 @@ class App extends StatelessWidget {
           create: (context) => BottomBarButtonCubit()),
 
         BlocProvider<PostUploadCubit>(
-          create: (context) => PostUploadCubit(_postRepo))
+          create: (context) => PostUploadCubit(_postRepo)),
+
+        BlocProvider<NavMenuItemCubit>(
+          create: (context) => NavMenuItemCubit()),
       ],
       child: MaterialApp(
           title: 'Camel Up',
