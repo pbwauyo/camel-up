@@ -1,3 +1,4 @@
+import 'package:camel_up/utils/constants.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
@@ -37,7 +38,7 @@ class Profile extends Equatable {
       "lastName": lastName,
       "profileImage": profileImage ?? "",
       "about" : about ?? "",
-      "onlineStatus" : onlineStatus ?? "",
+      "onlineStatus" : onlineStatus ?? OnlineStatus.OFFLINE,
       "deviceId" : deviceId ?? ""
     };
   }
@@ -50,7 +51,7 @@ class Profile extends Equatable {
         lastName: map["lastName"],
         profileImage : map["profileImage"] ?? "",
         about : map["about"] ?? "",
-        onlineStatus: map["onlineStatus"] ?? "",
+        onlineStatus: map["onlineStatus"] ?? OnlineStatus.OFFLINE,
         deviceId: map["deviceId"] ?? "" 
       );
   }

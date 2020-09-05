@@ -2,6 +2,7 @@ import 'package:camel_up/models/idea.dart';
 import 'package:camel_up/models/profile.dart';
 import 'package:camel_up/repos/idea_repo.dart';
 import 'package:camel_up/repos/user_repo.dart';
+import 'package:camel_up/screens/chat_screen/chat_screen.dart';
 import 'package:camel_up/screens/idea_details/widgets/idea_card.dart';
 import 'package:camel_up/screens/idea_list/idea_list.dart';
 import 'package:camel_up/shared_widgets/beautiful_divider.dart';
@@ -134,8 +135,13 @@ class _ProfilePageState extends State<ProfilePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomRoundedButton(
-                          text: "Disconnect", 
-                          onTap: (){}, 
+                          text: "Chat", 
+                          onTap: (){
+                            Navigations.slideFromRight(
+                              context: context, 
+                              newScreen: ChatScreen(receiverEmail: _profile.email)
+                            );
+                          }, 
                           unRoundedTopRight: false
                         ),
 

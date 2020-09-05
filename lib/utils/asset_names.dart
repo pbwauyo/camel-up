@@ -17,4 +17,5 @@ class AssetNames {
   static const PROFILE_SVG = "$IMAGES_BASE_URI/profile_svg.svg";
   static const ABOUT_SVG = "$IMAGES_BASE_URI/about_svg.svg";
   static const HELP_SVG = "$IMAGES_BASE_URI/help_svg.svg";
+  static const CHATS_SVG = "$IMAGES_BASE_URI/chats_svg.svg";
 }

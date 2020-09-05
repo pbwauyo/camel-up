@@ -18,3 +18,5 @@ class NavMenuItemAbout extends NavMenuItemState {}
 class NavMenuItemHelp extends NavMenuItemState {}
 
 class NavMenuItemLogout extends NavMenuItemState {}
+
+class NavMenuItemChats extends NavMenuItemState {}

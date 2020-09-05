@@ -16,6 +16,11 @@ class RadioButtonFields{
   static const SELECTION = "SELECTION";
 }
 
+class OnlineStatus {
+  static const ONLINE_NOW = "Online now";
+  static const OFFLINE = "Offline";
+}
+
 enum SelectedBottomBarBtn{
   CREATE_IDEA,
   CREATE_POST,

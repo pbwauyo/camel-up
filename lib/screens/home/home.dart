@@ -4,10 +4,12 @@ import 'package:camel_up/cubit/nav_menu_item_cubit.dart';
 import 'package:camel_up/models/idea.dart';
 import 'package:camel_up/models/profile.dart';
 import 'package:camel_up/repos/user_repo.dart';
+import 'package:camel_up/screens/chat_screen/chat_screen.dart';
 import 'package:camel_up/screens/create_idea/create_idea.dart';
 import 'package:camel_up/screens/create_post/create_post.dart';
 import 'package:camel_up/screens/donate/donate.dart';
 import 'package:camel_up/screens/idea_list/idea_list.dart';
+import 'package:camel_up/screens/main_chat_screen/main_chat_screen.dart';
 import 'package:camel_up/screens/profile_page/profile_page.dart';
 import 'package:camel_up/screens/the_idea/the_idea.dart';
 import 'package:camel_up/shared_widgets/custom_bottom_bar.dart';
@@ -136,6 +138,41 @@ class _HomeState extends State<Home> {
                                         child: Text("Profile",
                                           style: TextStyle(
                                             color: state is NavMenuItemProfile ? AppColors.yellow : Colors.white,
+                                            fontSize: 20
+                                          ),
+                                        ),
+                                      )
+                                    ],
+                                  ),
+                                ),
+                              ),
+
+                              GestureDetector(
+                                onTap: (){
+                                  navMenuCubit.highlightChats();
+                                  Navigations.popScreen(context);
+                                  Navigations.slideFromRight(
+                                    context: context, 
+                                    newScreen: MainChatScreen()
+                                  );
+                                },
+                                child: Container(
+                                  color: state is NavMenuItemChats ? AppColors.lightGrey.withOpacity(0.5) : Colors.transparent,
+                                  padding: const EdgeInsets.symmetric(vertical: 5.0, horizontal: 20),
+                                  child: Row(
+                                    children: [
+                                      Container(
+                                        margin: const EdgeInsets.only(right: 20),
+                                        child: SvgPicture.asset(AssetNames.CHATS_SVG,
+                                          width: 50,
+                                          height: 50,
+                                          color: AppColors.yellow
+                                        ),
+                                      ),
+                                      Container(
+                                        child: Text("Chats",
+                                          style: TextStyle(
+                                            color: state is NavMenuItemChats ? AppColors.yellow : Colors.white,
                                             fontSize: 20
                                           ),
                                         ),

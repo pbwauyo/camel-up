@@ -26,6 +26,10 @@ class NavMenuItemCubit extends Cubit<NavMenuItemState> {
     emit(NavMenuItemLogout());
   }
 
+  highlightChats(){
+    emit(NavMenuItemChats());
+  }
+
   unHighlight(){
     emit(NavMenuItemInitial());
   }
