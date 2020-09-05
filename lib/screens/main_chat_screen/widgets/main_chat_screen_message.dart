@@ -17,7 +17,7 @@ class MainChatScreenMessage extends StatelessWidget{
       onTap: (){
         Navigations.slideFromRight(
           context: context, 
-          newScreen: ChatScreen(receiverEmail: chatMessage.receiverEmail)
+          newScreen: ChatScreen(receiverEmail: chatMessage.senderEmail)
         );
       },
       child: Row(

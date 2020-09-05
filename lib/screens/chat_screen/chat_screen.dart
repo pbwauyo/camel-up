@@ -43,7 +43,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
              Expanded(
                child: StreamBuilder<QuerySnapshot>(
-                 stream: _chatMessagesRepo.getSenderChatsAsStream(
+                 stream: _chatMessagesRepo.getConversationAsStream(
                    currentUserEmail: _currentUserEmail, receiverEmail: widget.receiverEmail),
 
                  builder: (context, snapshot) {
@@ -60,13 +60,19 @@ class _ChatScreenState extends State<ChatScreen> {
                         if(chatMessage.senderEmail == _currentUserEmail){
                           return Align(
                             alignment: Alignment.centerLeft,
-                            child: MessageSenderWidget(chatMessage: chatMessage)
+                            child: Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: MessageSenderWidget(chatMessage: chatMessage)
+                            )
                           );
                         }
                         else {
                           return Align(
                             alignment: Alignment.centerRight,
-                            child: MessageReceiverWidget(chatMessage: chatMessage)
+                            child: Container(
+                              margin: const EdgeInsets.only(bottom: 10),
+                              child: MessageReceiverWidget(chatMessage: chatMessage)
+                            )
                           );
                         }
                       }

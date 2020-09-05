@@ -20,6 +20,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
 
   final _userRepo = UserRepo();
   final _chatMessagesRepo = ChatMessageRepo();
+  final _textController =TextEditingController();
 
   bool isSending = false;
 
@@ -41,6 +42,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
           Expanded(
             child: Container(
               child: TextField(
+                controller: _textController,
                 style: TextStyle(
                   color: Colors.white
                 ),
@@ -70,7 +72,7 @@ class _ChatTextFieldState extends State<ChatTextField> {
                   chatMessage.senderEmail = senderProfile.email;
                   chatMessage.receiverEmail = widget.receiverEmail;
                   await _chatMessagesRepo.postChatMessage(chatMessage);
-
+                  _textController.clear();
                   setState(() {
                     isSending = false;
                   });

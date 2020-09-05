@@ -12,7 +12,7 @@ class MessageReceiverWidget extends StatelessWidget {
     return Container(
       padding: const EdgeInsets.all(10),
       decoration: BoxDecoration(
-        color: AppColors.yellow.withOpacity(0.8),
+        color: AppColors.yellow.withOpacity(0.6),
         borderRadius: BorderRadius.only(
           topLeft: Radius.circular(20),
           topRight: Radius.circular(20),
@@ -20,8 +20,10 @@ class MessageReceiverWidget extends StatelessWidget {
         )
       ),
       child: Column(
+        crossAxisAlignment: CrossAxisAlignment.end,
         children: [
           Container(
+            constraints: BoxConstraints(maxWidth: 200),
             margin: const EdgeInsets.only(bottom: 10),
             child: Text(chatMessage.message,
               style: TextStyle(

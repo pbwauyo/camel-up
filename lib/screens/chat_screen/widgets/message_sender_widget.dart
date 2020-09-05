@@ -24,6 +24,7 @@ class MessageSenderWidget extends StatelessWidget{
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
           Container(
+            constraints: BoxConstraints(maxWidth: 200),
             margin: const EdgeInsets.only(bottom: 10),
             child: Text(chatMessage.message,
               style: TextStyle(

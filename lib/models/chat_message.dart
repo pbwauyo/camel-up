@@ -8,9 +8,10 @@ class ChatMessage {
   String senderImage;
   String message;
   String timestamp;
+  String chatroomID;
 
   ChatMessage({this.id, this.senderEmail, this.receiverEmail, this.senderName, this.senderImage,
-      this.message, this.timestamp
+      this.message, this.timestamp, this.chatroomID
   });
 
   factory ChatMessage.fromMap(Map<String, dynamic> map){
@@ -21,7 +22,8 @@ class ChatMessage {
       senderName: map["senderName"],
       senderImage: map["senderImage"],
       message: map["message"],
-      timestamp: map["timestamp"]
+      timestamp: map["timestamp"],
+      chatroomID: map["chatroomId"]
     );
   }
 
@@ -33,7 +35,8 @@ class ChatMessage {
       "senderName" : senderName,
       "senderImage" : senderImage,
       "message" : message,
-      "timestamp" : Timestamp.now().nanoseconds.toString()
+      "timestamp" : Timestamp.now().nanoseconds.toString(),
+      "chatroomId" : chatroomID
     };
   }
 

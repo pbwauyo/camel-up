@@ -7,22 +7,26 @@ class ChatMessageRepo {
   final _chatsCollectionRef = Firestore.instance.collection("chats");
 
   Future<void> postChatMessage(ChatMessage chatMessage) async{
-    await _chatsCollectionRef.document(chatMessage.id).setData(chatMessage.toMap());
+    final currentUserEmail = chatMessage.senderEmail;
+    await _chatsCollectionRef.document(currentUserEmail)
+    .collection(chatMessage.receiverEmail).document(chatMessage.id).setData(chatMessage.toMap());
+    _chatsCollectionRef.document(currentUserEmail).collection("messages")
+    .document(chatMessage.id).setData(chatMessage.toMap());
   }
 
-  Stream<QuerySnapshot> getSenderChatsAsStream({@required String currentUserEmail, 
+  Stream<QuerySnapshot> getConversationAsStream({@required String currentUserEmail, 
         @required String receiverEmail}){
 
-    return _chatsCollectionRef.where("senderEmail", isEqualTo: currentUserEmail)
-                              .where("receiverEmail", isEqualTo: receiverEmail)
+    return _chatsCollectionRef.document(currentUserEmail)
+                              .collection(receiverEmail)
                               .orderBy("timestamp")
                               .snapshots();
+
   }
 
   Stream<QuerySnapshot> getAllUserChatsAsStream({@required String userEmail}){
-
-    return _chatsCollectionRef.where("senderEmail", isEqualTo: userEmail)
-                              .orderBy("timestamp")
-                              .snapshots();
+    return _chatsCollectionRef.document(userEmail).collection("messages")
+                  .orderBy("timestamp")
+                  .snapshots();
   }
 }
