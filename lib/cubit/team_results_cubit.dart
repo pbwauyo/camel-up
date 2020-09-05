@@ -26,9 +26,9 @@ class TeamResultsCubit extends Cubit<TeamResultsState> {
     try{
       final List<Profile> list = [];
       final querySnapshot = await userRepo.getUserProfiles();
-      final documents = querySnapshot.documents;
+      final documents = querySnapshot.docs;
       documents.forEach((document) {
-        final profile = Profile.fromMap(document.data);
+        final profile = Profile.fromMap(document.data());
         if(theresAMatch(profile, keyword)){
           print("Added Profile: $profile");
           list.add(profile);

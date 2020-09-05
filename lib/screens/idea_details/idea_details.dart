@@ -128,7 +128,7 @@ class IdeaDetails extends StatelessWidget {
                     stream: _commentRepo.getCommentsAsStream(idea.id),
                     builder: (context, snapshot) {
                       if(snapshot.hasData){
-                        final data = snapshot.data.documents;
+                        final data = snapshot.data.docs;
     
                         if(data.length <= 0){
                           return EmptyResultsText(
@@ -143,7 +143,7 @@ class IdeaDetails extends StatelessWidget {
                             return Container(
                               margin: const EdgeInsets.only(top: 30),
                               child: CommentCard(
-                                comment: Comment.fromMap(data[index].data)
+                                comment: Comment.fromMap(data[index].data())
                               ),
                             );
                           },

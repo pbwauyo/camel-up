@@ -33,14 +33,14 @@ class _MainChatScreenState extends State<MainChatScreen> {
                 stream: _chatMessagesRepo.getAllUserChatsAsStream(userEmail: email),
                 builder: (context, snapshot) {
                   if(snapshot.hasData){
-                    final docs = snapshot.data.documents;
+                    final docs = snapshot.data.docs;
                     if(docs.length <= 0){
                       return Center(child: EmptyResultsText(message: "No messages yet"));
                     }
                     return ListView.builder(
                       itemCount: docs.length,
                       itemBuilder: (context, index){
-                        final chatMessage = ChatMessage.fromMap(docs[index].data);
+                        final chatMessage = ChatMessage.fromMap(docs[index].data());
                         return Container(
                           margin: const EdgeInsets.only(left: 10, right: 10, top: 15,),
                           child: MainChatScreenMessage(chatMessage: chatMessage)

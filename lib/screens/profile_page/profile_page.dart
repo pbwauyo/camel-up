@@ -15,6 +15,8 @@ import 'package:camel_up/utils/asset_names.dart';
 import 'package:camel_up/utils/colors.dart';
 import 'package:camel_up/utils/methods.dart';
 import 'package:camel_up/utils/navigations.dart';
+import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 
 class ProfilePage extends StatefulWidget{
@@ -31,6 +33,7 @@ class _ProfilePageState extends State<ProfilePage> {
   final UserRepo _userRepo = UserRepo();
   final IdeaRepo _ideaRepo = IdeaRepo();
   Future<Profile> _profileFuture;
+  final _aboutTextController = TextEditingController();
   Future<Idea> _ideaFuture;
 
   @override
@@ -45,11 +48,13 @@ class _ProfilePageState extends State<ProfilePage> {
     return Scaffold(
       backgroundColor: AppColors.darkBackground,
       body: SafeArea(
-        child: FutureBuilder<Profile>(
-          future: _profileFuture,
+        child: StreamBuilder<QuerySnapshot>(
+          // future: _profileFuture,
+          stream: _userRepo.getUserAsStream(widget.email),
           builder: (context, snapshot) {
             if(snapshot.hasData){
-              final _profile = snapshot.data;
+              final docs = snapshot.data.docs;
+              final _profile = Profile.fromMap(docs[0].data());
               return ListView(
                 children: [
                   Stack(
@@ -71,15 +76,20 @@ class _ProfilePageState extends State<ProfilePage> {
                         right: 10,
                         bottom: -45,
                         child: Center(
-                          child: Container(
-                            height: 90,
-                            width: 90,
-                            decoration: BoxDecoration(
-                              borderRadius: BorderRadius.circular(45),
-                              image: DecorationImage(
-                                image: showImage(_profile.profileImage),
-                                fit: BoxFit.fill
-                              )
+                          child: GestureDetector(
+                            onTap: widget.isCurrentUser ? (){
+                              _userRepo.updateUserProfilePic();
+                            }: (){},
+                            child: Container(
+                              height: 90,
+                              width: 90,
+                              decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(45),
+                                image: DecorationImage(
+                                  image: showImage(_profile.profileImage),
+                                  fit: BoxFit.fill
+                                )
+                              ),
                             ),
                           ),
                         )
@@ -112,14 +122,62 @@ class _ProfilePageState extends State<ProfilePage> {
                     ),
                   ),
 
-                  Center(
-                    child: Container(
-                      margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
-                      child: Text("${_profile.about}",
-                        maxLines: 2,
-                        style: TextStyle(
-                          color: AppColors.lightGrey,
-                          fontSize: 16
+                  GestureDetector(
+                    onTap: widget.isCurrentUser ? (){
+                      showCupertinoDialog(
+                        context: context, 
+                        builder: (context){
+                          return CupertinoAlertDialog(
+                            content: Container(
+                              // margin: const EdgeInsets.fromLTRB(10, 5, 10, 5),
+                              child: Material(
+                                color: Colors.transparent,
+                                child: TextField(
+                                  controller: _aboutTextController,
+                                  autofocus: true,
+                                  maxLines: null,
+                                  decoration: InputDecoration(
+                                    border: InputBorder.none,
+                                    hintText: "Edit about",
+                                  ),
+                                ),
+                              ),
+                            ),
+                            actions: [
+                              CupertinoDialogAction(
+                                child: Text("Cancel",
+                                  style: TextStyle(color: Colors.red),
+                                ),
+                                onPressed: (){
+                                  Navigations.popScreen(context);
+                                },
+                              ),
+
+                              CupertinoDialogAction(
+                                child: Text("Done",
+                                  style: TextStyle(color: Colors.green),
+                                ),
+                                onPressed: (){
+                                  Navigations.popScreen(context);
+                                  _userRepo.updateUserAbout(about: _aboutTextController.text);
+                                },
+                              )
+                            ],
+                          );
+                        }
+                      );
+                    } : (){},
+                    child: Center(
+                      child: Container(
+                        margin: const EdgeInsets.fromLTRB(10, 10, 10, 10),
+                        child: Text(_profile.about.isNotEmpty? _profile.about : (widget.isCurrentUser ? "Add about" : "No about"),
+                          maxLines: 2,
+                          textAlign: TextAlign.center,
+                          style: TextStyle(
+                            color: AppColors.lightGrey,
+                            fontSize: 16,
+                            
+                          ),
                         ),
                       ),
                     ),
@@ -135,6 +193,14 @@ class _ProfilePageState extends State<ProfilePage> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         CustomRoundedButton(
+                          text: "Disconnect", 
+                          onTap: (){
+                            
+                          }, 
+                          unRoundedTopRight: false
+                        ),
+
+                        CustomRoundedButton(
                           text: "Chat", 
                           onTap: (){
                             Navigations.slideFromRight(
@@ -142,12 +208,6 @@ class _ProfilePageState extends State<ProfilePage> {
                               newScreen: ChatScreen(receiverEmail: _profile.email)
                             );
                           }, 
-                          unRoundedTopRight: false
-                        ),
-
-                        CustomRoundedButton(
-                          text: "Other", 
-                          onTap: (){}, 
                           unRoundedTopRight: true
                         ),
                       ],

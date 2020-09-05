@@ -58,11 +58,11 @@ class _HomeState extends State<Home> {
                 stream: _userRepo.getUserAsStream(email),
                 builder: (context, snapshot) {
                   if(snapshot.hasData){
-                    final docs = snapshot.data.documents;
+                    final docs = snapshot.data.docs;
                     if(docs.length <= 0){
                       return EmptyResultsText(message: "No matching profile",);
                     }
-                    final profile = Profile.fromMap(docs[0].data);
+                    final profile = Profile.fromMap(docs[0].data());
                     return Column(
                       mainAxisSize: MainAxisSize.min,
                       children: [

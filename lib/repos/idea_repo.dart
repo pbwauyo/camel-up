@@ -5,14 +5,14 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 
 class IdeaRepo {
-  final _firestore = Firestore.instance;
+  final _firestore = FirebaseFirestore.instance;
 
   Future<void> saveIdeaToFirestore() async{
-    final docReference = _firestore.collection("ideas").document();
+    final docReference = _firestore.collection("ideas").doc();
     final ideaDetails = await PrefManager.getIdeaDetails();
     final audienceDetails = await PrefManager.getAudienceDetails();
     
-    final id = docReference.documentID;
+    final id = docReference.id;
     final title = ideaDetails[PrefKeys.TITLE];
     final text = ideaDetails[PrefKeys.TEXT];
     final ideaKeyWords = ideaDetails[PrefKeys.KEYWORDS]?.cast<String>() ?? [];
@@ -32,13 +32,13 @@ class IdeaRepo {
       privacyList: privacyList
     );
 
-    return docReference.setData(idea.toMap());
+    return docReference.set(idea.toMap());
   }
 
   Future<List<Idea>> getAllIdeas() async{
-    final snapshot = await _firestore.collection("ideas").getDocuments();
-    final ideaList = snapshot.documents.map(
-                      (doc) => Idea.fromMap(doc.data)
+    final snapshot = await _firestore.collection("ideas").get();
+    final ideaList = snapshot.docs.map(
+                      (doc) => Idea.fromMap(doc.data())
                      ).toList();
     return ideaList;                 
   }
@@ -46,29 +46,29 @@ class IdeaRepo {
   Future<List<Idea>> getAllIdeasForUser(String email) async{
     final snapshot = await _firestore.collection("ideas")
                                 .where("email", isEqualTo: email)
-                                .getDocuments();
-    final ideaList = snapshot.documents.map(
-                      (doc) => Idea.fromMap(doc.data)
+                                .get();
+    final ideaList = snapshot.docs.map(
+                      (doc) => Idea.fromMap(doc.data())
                      ).toList();
     return ideaList;                 
   }
 
   Future<Idea> getIdeaById(String id) async{
     final docSnapshot = await _firestore.collection("ideas")
-                                        .document(id).get();
+                                        .doc(id).get();
    
-    return Idea.fromMap(docSnapshot.data);
+    return Idea.fromMap(docSnapshot.data());
   }
 
   Future<Idea> getFirstUserIdea(String email) async{
     final querySnapshot = await _firestore.collection("ideas")
                                     .where("email", isEqualTo: email)
                                     .limit(1)
-                                    .getDocuments();
+                                    .get();
                                     
-    if(querySnapshot.documents.length > 0){
-      final docSnapshot = querySnapshot.documents[0];   
-      return Idea.fromMap(docSnapshot.data);  
+    if(querySnapshot.docs.length > 0){
+      final docSnapshot = querySnapshot.docs[0];   
+      return Idea.fromMap(docSnapshot.data());  
     } 
     else {
       return Idea();
@@ -76,25 +76,25 @@ class IdeaRepo {
   }
 
   Future<void> toggleLikeIdea(String id) async{
-    final snapshot = await _firestore.collection("ideas").document(id).get();
-    final idea = Idea.fromMap(snapshot.data);
+    final snapshot = await _firestore.collection("ideas").doc(id).get();
+    final idea = Idea.fromMap(snapshot.data());
 
     if(idea.liked){
-      await _firestore.collection("ideas").document(id)
-              .setData({"liked" : "false"}, merge: true);
+      await _firestore.collection("ideas").doc(id)
+              .set({"liked" : "false"}, SetOptions(merge: true));
       await updateLikesCount(ideaId: id, increment: false);
     }
     else {
-      await _firestore.collection("ideas").document(id)
-              .setData({"liked" : "true"}, merge: true);
+      await _firestore.collection("ideas").doc(id)
+              .set({"liked" : "true"}, SetOptions(merge: true));
       await updateLikesCount(ideaId: id, increment: true);
     }
   }
 
   Future<String> getCommentsCount(String id) async{
-    final ref = _firestore.collection("ideas").document(id);
+    final ref = _firestore.collection("ideas").doc(id);
     final snapshot = await ref.get();
-    final idea = Idea.fromMap(snapshot.data);
+    final idea = Idea.fromMap(snapshot.data());
     return idea.commentsCount;
   }
 
@@ -102,37 +102,37 @@ class IdeaRepo {
     final snapshot = await _firestore.collection("evaluations")
                 .where("evaluatorEmail", isEqualTo: evaluatorEmail)
                 .where("ideaId", isEqualTo: ideaId)
-                .getDocuments();
-    final docs = snapshot.documents;
-    return docs[0]["evaluation"].toString();
+                .get();
+    final docs = snapshot.docs;
+    return docs[0].data()["evaluation"].toString();
   }
 
   Future<String> getIdeaAverageEvaluation({@required String ideaId}) async{
-    final snapshot = await _firestore.collection("ideas").document(ideaId).get();
-    return snapshot.data["averageEvaluation"].toString();
+    final snapshot = await _firestore.collection("ideas").doc(ideaId).get();
+    return snapshot.data()["averageEvaluation"].toString();
   }
 
   Future<void> updateIdeaAverageEvaluation({@required String ideaId, @required String evaluation}) async{
-    final ref = _firestore.collection("ideas").document(ideaId);
+    final ref = _firestore.collection("ideas").doc(ideaId);
     final currentEvaluation = double.parse(await getIdeaAverageEvaluation(ideaId: ideaId));
     final int evalutationCount = await getCurrentEvaluationCount(ideaId);
     final newEvaluation = (currentEvaluation+(double.parse(evaluation)))/evalutationCount;
-    await ref.setData({
+    await ref.set({
       "evaluation" : newEvaluation.toString()
-    }, merge: true);
+    }, SetOptions(merge: true));
   }
 
   Future<void> updateIdeaEvaluationCount({@required String ideaId}) async{
-    final snapshot = await _firestore.collection("ideas").document(ideaId).get();
-    final currentEvaluationCount = int.parse(snapshot.data["evaluationCount"]);
-    await _firestore.collection("ideas").document(ideaId).setData({
+    final snapshot = await _firestore.collection("ideas").doc(ideaId).get();
+    final currentEvaluationCount = int.parse(snapshot.data()["evaluationCount"]);
+    await _firestore.collection("ideas").doc(ideaId).set({
       "evaluationCount" : (currentEvaluationCount+1)
-    }, merge: true);
+    }, SetOptions(merge: true));
   }
 
   Future<int> getCurrentEvaluationCount(String ideaId) async{
-    final snapshot = await _firestore.collection("ideas").document(ideaId).get();
-    return int.parse(snapshot.data["evaluationCount"]);
+    final snapshot = await _firestore.collection("ideas").doc(ideaId).get();
+    return int.parse(snapshot.data()["evaluationCount"]);
   }
 
   Future<void> saveIdeaEvaluation({@required String evaluatorEmail, 
@@ -140,13 +140,13 @@ class IdeaRepo {
     final ref = _firestore.collection("evaluations");
     final snapshot = await ref.where("evaluatorEmail", isEqualTo: evaluatorEmail)
                 .where("ideaId", isEqualTo: ideaId)
-                .getDocuments();
+                .get();
 
-    final docs = snapshot.documents;
+    final docs = snapshot.docs;
     if(docs.length >= 1) { //if already exists
-      docs[0].reference.setData({
+      docs[0].reference.set({
         "evaluation" : evaluation
-      }, merge: true);
+      }, SetOptions(merge: true));
     }else {  //else
       ref.add({
         "evaluatorEmail" : evaluatorEmail,
@@ -159,39 +159,39 @@ class IdeaRepo {
   }
 
   Future<void> updateCommentCount({@required String ideaId, @required bool increment}) async{
-    final ref = _firestore.collection("ideas").document(ideaId);
+    final ref = _firestore.collection("ideas").doc(ideaId);
     final snapshot = await ref.get();
-    final idea = Idea.fromMap(snapshot.data);
+    final idea = Idea.fromMap(snapshot.data());
     final int currentCount = int.parse(idea.commentsCount);
     if(increment){
-      await ref.setData({"commentsCount" : (currentCount+1).toString()}, merge: true);
+      await ref.set({"commentsCount" : (currentCount+1).toString()}, SetOptions(merge: true));
     }else{
-      await ref.setData({"commentsCount" : (currentCount-1).toString()}, merge: true);
+      await ref.set({"commentsCount" : (currentCount-1).toString()}, SetOptions(merge: true));
     }
   }
 
   Future<void> updateLikesCount({@required String ideaId, @required bool increment}) async{
-    final ref = _firestore.collection("ideas").document(ideaId);
+    final ref = _firestore.collection("ideas").doc(ideaId);
     final snapshot = await ref.get();
-    final idea = Idea.fromMap(snapshot.data);
+    final idea = Idea.fromMap(snapshot.data());
     final int currentCount = int.parse(idea.likesCount);
     if(increment){
-      await ref.setData({"likesCount" : (currentCount+1).toString()}, merge: true);
+      await ref.set({"likesCount" : (currentCount+1).toString()}, SetOptions(merge: true));
     }else{
-      await ref.setData({"likesCount" : (currentCount-1).toString()}, merge: true);
+      await ref.set({"likesCount" : (currentCount-1).toString()}, SetOptions(merge: true));
     }  
   }
 
   Future<String> getLikesCount(String id) async{
-    final ref = _firestore.collection("ideas").document(id);
+    final ref = _firestore.collection("ideas").doc(id);
     final snapshot = await ref.get();
-    final idea = Idea.fromMap(snapshot.data);
+    final idea = Idea.fromMap(snapshot.data());
     return idea.likesCount;
   }
 
   Future<bool> getIdeaLikeStatus(String id) async{
-    final snapshot = await _firestore.collection("ideas").document(id).get();
-    final idea = Idea.fromMap(snapshot.data);
+    final snapshot = await _firestore.collection("ideas").doc(id).get();
+    final idea = Idea.fromMap(snapshot.data());
     return idea.liked;
   }
 }

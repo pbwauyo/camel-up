@@ -22,8 +22,9 @@ class ChatScreenHeader extends StatelessWidget {
       stream: _userRepo.getUserAsStream(currentUserEmail),
       builder: (context, snapshot) {
         if(snapshot.hasData){
-          final doc = snapshot.data.documents[0];
-          final profile = Profile.fromMap(doc.data);
+          
+          final doc = snapshot.data.docs[0];
+          final profile = Profile.fromMap(doc.data());
           final double imageSize = 130;
 
           return Row(

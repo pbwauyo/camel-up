@@ -48,7 +48,7 @@ class _ChatScreenState extends State<ChatScreen> {
 
                  builder: (context, snapshot) {
                    if(snapshot.hasData){
-                     final docs = snapshot.data.documents;
+                     final docs = snapshot.data.docs;
 
                      if(docs.length <= 0){
                        return Center(child: EmptyResultsText(message: "No messages yet"));
@@ -56,7 +56,7 @@ class _ChatScreenState extends State<ChatScreen> {
                      return ListView.builder(
                       itemCount: docs.length,
                       itemBuilder: (context, index){
-                        final chatMessage = ChatMessage.fromMap(docs[index].data);
+                        final chatMessage = ChatMessage.fromMap(docs[index].data());
                         if(chatMessage.senderEmail == _currentUserEmail){
                           return Align(
                             alignment: Alignment.centerLeft,
