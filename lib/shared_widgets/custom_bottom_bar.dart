@@ -16,7 +16,7 @@ class _CustomBottomBarState extends State<CustomBottomBar> {
   Widget build(BuildContext context) {
     return Material(
       elevation: 8,
-      color: AppColors.darkBackground,
+      color: AppColors.primaryDark.withOpacity(0.8),
       child: BlocBuilder<BottomBarButtonCubit, BottomBarButtonState>(
         builder: (context, state) {
           final cubit = context.bloc<BottomBarButtonCubit>();
@@ -104,9 +104,13 @@ class BottomBarButton extends StatelessWidget {
               color: AppColors.darkBackground,
               size: 48,
             ) : 
-            SvgPicture.asset(AssetNames.CAMEL_SVG,
-              color: AppColors.darkBackground,
-              fit: BoxFit.fill,
+            Center(
+              child: SvgPicture.asset(AssetNames.CAMEL_SVG,
+                color: AppColors.darkBackground,
+                height: 50,
+                width: 50,
+                fit: BoxFit.fill,
+              ),
             )
         ),
       ),
