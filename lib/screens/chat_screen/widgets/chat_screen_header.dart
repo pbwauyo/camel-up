@@ -11,15 +11,15 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 
 class ChatScreenHeader extends StatelessWidget {
   final UserRepo _userRepo = UserRepo();
+  final String email;
 
-  ChatScreenHeader();
+  ChatScreenHeader({@required this.email});
 
   @override
   Widget build(BuildContext context) {
-    final currentUserEmail = (context.bloc<AuthCubit>().state as AuthLoggedIn).email;
 
     return StreamBuilder<QuerySnapshot>(
-      stream: _userRepo.getUserAsStream(currentUserEmail),
+      stream: _userRepo.getUserAsStream(email),
       builder: (context, snapshot) {
         if(snapshot.hasData){
           

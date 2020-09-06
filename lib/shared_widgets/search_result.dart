@@ -53,7 +53,7 @@ class SearchResult extends StatelessWidget{
                   ),
 
                    Container(
-                    child: Text(profile.about ?? "N/A",
+                    child: Text("Move Immediately",
                       maxLines: 1,
                       style: TextStyle(
                         fontSize: 16,

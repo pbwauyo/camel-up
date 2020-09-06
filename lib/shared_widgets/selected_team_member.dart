@@ -4,6 +4,7 @@ import 'package:camel_up/models/profile.dart';
 import 'package:camel_up/shared_widgets/circular_button.dart';
 import 'package:camel_up/shared_widgets/search_result.dart';
 import 'package:camel_up/utils/colors.dart';
+import 'package:camel_up/utils/methods.dart';
 import 'package:camel_up/utils/pref_manager.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -93,7 +94,7 @@ class _SelectedTeamMemberState extends State<SelectedTeamMember> {
                   );
                   context.bloc<EnterRoleCubit>().resetEnterRole();
                   context.bloc<TeamSelectionCubit>().goToTeamSelection();
-                  Fluttertoast.showToast(msg: "Role selected successfully");
+                  showCustomToast("Role selected successfully");
                 }
               );
             }

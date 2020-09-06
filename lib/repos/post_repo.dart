@@ -1,4 +1,5 @@
 import 'package:camel_up/models/post.dart';
+import 'package:camel_up/repos/user_repo.dart';
 import 'package:camel_up/utils/pref_keys.dart';
 import 'package:camel_up/utils/pref_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,6 +7,7 @@ import 'package:flutter/material.dart';
 
 class PostRepo {
   final _firestore = FirebaseFirestore.instance;
+  final _userRepo  = UserRepo();
 
   Future<void> savePostToFirestore() async{
     final docReference = _firestore.collection("posts").doc();
@@ -19,13 +21,18 @@ class PostRepo {
     final privacy = postPrivacyDetails[PrefKeys.PRIVACY];
     final privacyList = postPrivacyDetails[PrefKeys.PRIVACY_LIST]?.cast<String>() ?? [];
 
+    final profile = await _userRepo.getCurrentUserProfile();
+
     final post = Post(
       id: id,
       postKeywords: postKeyWords,
       title: title,
       text: text,
       privacy: privacy,
-      privacyList: privacyList
+      privacyList: privacyList,
+      profileEmail: profile.email,
+      profileImage: profile.profileImage,
+      profileName: "${profile.firstName} ${profile.lastName}"
     );
 
     return docReference.set(post.toMap(), SetOptions(merge: true));

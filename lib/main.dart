@@ -103,7 +103,7 @@ class App extends StatelessWidget {
   }
 }
 
-class Body extends StatefulWidget {
+class Body extends StatefulWidget{
   Body({Key key}) : super(key: key);
 
   @override

@@ -31,7 +31,7 @@ class CommentRepo {
   Stream<QuerySnapshot> getCommentsAsStream(String ideaId){
     return _firestore.collection("comments")
     .where("ideaId", isEqualTo: ideaId)
-    .orderBy("timestamp", descending: false)
+    .orderBy("timestamp", descending: true)
     .snapshots();
   } 
 

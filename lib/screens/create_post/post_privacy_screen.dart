@@ -2,11 +2,13 @@ import 'package:camel_up/cubit/post_upload_cubit.dart';
 import 'package:camel_up/cubit/privacy_members_cubit.dart';
 import 'package:camel_up/cubit/selected_radio_button_cubit.dart';
 import 'package:camel_up/models/profile.dart';
+import 'package:camel_up/screens/chat_screen/chat_screen.dart';
 import 'package:camel_up/shared_widgets/custom_progress_indicator.dart';
 import 'package:camel_up/shared_widgets/done_button.dart';
 import 'package:camel_up/shared_widgets/empty_results_text.dart';
 import 'package:camel_up/shared_widgets/error_text.dart';
 import 'package:camel_up/shared_widgets/prev_button.dart';
+import 'package:camel_up/shared_widgets/privacy_widget.dart';
 import 'package:camel_up/shared_widgets/search_result.dart';
 import 'package:camel_up/utils/colors.dart';
 import 'package:camel_up/utils/custom_radio_button.dart';
@@ -99,7 +101,7 @@ class PostPrivacyScreen extends StatelessWidget{
                       if(state is PrivacyMembersInitial){
                         return Container();
                       }else{
-                        return StreamBuilder<List<Profile>>(
+                        return StreamBuilder<List<String>>(
                           stream: context.bloc<PrivacyMembersCubit>().usersStream,
                           builder: (context, snapshot){
                             if(snapshot.hasData){
@@ -108,9 +110,14 @@ class PostPrivacyScreen extends StatelessWidget{
                                 return ListView.builder(
                                   itemCount: results.length,
                                   itemBuilder: (context, index){
-                                    return SearchResult(
-                                      onTap: (){}, 
-                                      profile: results[index]
+                                    return PrivacyWidget(
+                                      onTap: (){
+                                        Navigations.slideFromRight(
+                                          context: context, 
+                                          newScreen: ChatScreen(receiverEmail: results[index])
+                                        );
+                                      }, 
+                                      email: results[index]
                                     );
                                   }
                                 );

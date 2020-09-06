@@ -30,7 +30,7 @@ class _MainChatScreenState extends State<MainChatScreen> {
           children: [
             Expanded(
               child:  StreamBuilder<QuerySnapshot>(
-                stream: _chatMessagesRepo.getAllUserChatsAsStream(userEmail: email),
+                stream: _chatMessagesRepo.getUserLastSentMessagesAsStream(userEmail: email),
                 builder: (context, snapshot) {
                   if(snapshot.hasData){
                     final docs = snapshot.data.docs;

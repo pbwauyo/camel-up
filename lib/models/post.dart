@@ -14,12 +14,16 @@ class Post {
   String likesCount;
   bool liked;
   String averageEvaluation;
+  String profileEmail;
+  String profileName;
+  String profileImage;
 
   Post({this.id, this.postKeywords, 
   this.title, 
   this.text, this.audio, this.video ,
   this.privacyList, this.privacy, this.timestamp, this.commentsCount, 
-  this.likesCount, this.liked, this.averageEvaluation});
+  this.likesCount, this.liked, this.averageEvaluation,
+  this.profileEmail, this.profileName, this.profileImage});
 
   factory Post.fromMap(Map<String, dynamic> map){
    return Post(
@@ -35,7 +39,10 @@ class Post {
      commentsCount: map["commentsCount"] ?? "0",
      likesCount: map["likesCount"] ?? "0",
      liked: map["liked"].toString() == "true",
-     averageEvaluation: map["averageEvaluation"] ?? "0.0"
+     averageEvaluation: map["averageEvaluation"] ?? "0.0",
+     profileEmail: map["profileEmail"],
+     profileImage: map["proifleImage"],
+     profileName: map["profileName"]
    );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
   }
 

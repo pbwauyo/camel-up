@@ -38,7 +38,7 @@ class _ChatScreenState extends State<ChatScreen> {
            children: [
              Container(
                margin: const EdgeInsets.only(top: 10, bottom: 10),
-               child: ChatScreenHeader()
+               child: ChatScreenHeader(email: widget.receiverEmail,)
              ),
 
              Expanded(

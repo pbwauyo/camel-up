@@ -11,17 +11,11 @@ class PrivacyMembersCubit extends Cubit<PrivacyMembersState> {
 
   PrivacyMembersCubit(this.userRepo) : super(PrivacyMembersInitial());
 
-  final _userStreamController = BehaviorSubject<List<Profile>>();
+  final _userStreamController = BehaviorSubject<List<String>>();
   get usersStream => _userStreamController;
 
-  Future updatePrivacyListStream(List<dynamic> list) async{
-    final profiles = List<Profile>();
-
-    list.forEach((email) async{
-      final profile = await userRepo.getUserProfile(email);
-      profiles.add(profile); 
-     });
-    _userStreamController.add(profiles);
+  Future updatePrivacyListStream(List<dynamic> list) async{ 
+    _userStreamController.add(List<String>.from(list));
     emit(PrivacyMembersLoaded());
   }
 

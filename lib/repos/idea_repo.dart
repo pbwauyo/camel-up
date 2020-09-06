@@ -1,4 +1,5 @@
 import 'package:camel_up/models/idea.dart';
+import 'package:camel_up/repos/user_repo.dart';
 import 'package:camel_up/utils/pref_keys.dart';
 import 'package:camel_up/utils/pref_manager.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
@@ -6,11 +7,13 @@ import 'package:flutter/material.dart';
 
 class IdeaRepo {
   final _firestore = FirebaseFirestore.instance;
+  final _userRepo  =UserRepo();
 
   Future<void> saveIdeaToFirestore() async{
     final docReference = _firestore.collection("ideas").doc();
     final ideaDetails = await PrefManager.getIdeaDetails();
     final audienceDetails = await PrefManager.getAudienceDetails();
+    final profile = await _userRepo.getCurrentUserProfile();
     
     final id = docReference.id;
     final title = ideaDetails[PrefKeys.TITLE];
@@ -29,7 +32,10 @@ class IdeaRepo {
       title: title,
       text: text,
       privacy: privacy,
-      privacyList: privacyList
+      privacyList: privacyList,
+      profileEmail: profile.email,
+      profileImage: profile.profileImage,
+      profileName: "${profile.firstName} ${profile.lastName}"
     );
 
     return docReference.set(idea.toMap());

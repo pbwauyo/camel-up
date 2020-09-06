@@ -1,10 +1,14 @@
 import 'package:camel_up/models/idea.dart';
+import 'package:camel_up/models/post.dart';
 import 'package:camel_up/models/profile.dart';
 import 'package:camel_up/repos/idea_repo.dart';
+import 'package:camel_up/repos/post_repo.dart';
 import 'package:camel_up/repos/user_repo.dart';
 import 'package:camel_up/screens/chat_screen/chat_screen.dart';
 import 'package:camel_up/screens/idea_details/widgets/idea_card.dart';
 import 'package:camel_up/screens/idea_list/idea_list.dart';
+import 'package:camel_up/screens/posts_list/posts_list.dart';
+import 'package:camel_up/screens/posts_list/widgets/post_card.dart';
 import 'package:camel_up/shared_widgets/beautiful_divider.dart';
 import 'package:camel_up/shared_widgets/custom_progress_indicator.dart';
 import 'package:camel_up/shared_widgets/custom_rounded_button.dart';
@@ -32,15 +36,18 @@ class ProfilePage extends StatefulWidget{
 class _ProfilePageState extends State<ProfilePage> {
   final UserRepo _userRepo = UserRepo();
   final IdeaRepo _ideaRepo = IdeaRepo();
+  final PostRepo _postsRepo = PostRepo();
   Future<Profile> _profileFuture;
   final _aboutTextController = TextEditingController();
   Future<Idea> _ideaFuture;
+  Future<Post> _postsFuture;
 
   @override
   void initState() {
     super.initState();
     _profileFuture = _userRepo.getUserProfile(widget.email);
     _ideaFuture = _ideaRepo.getFirstUserIdea(widget.email);
+    _postsFuture = _postsRepo.getFirstUserPost(widget.email);
   }
 
   @override
@@ -201,8 +208,8 @@ class _ProfilePageState extends State<ProfilePage> {
                         ),
 
                         CustomRoundedButton(
-                          text: "Chat", 
-                          onTap: (){
+                          text: widget.isCurrentUser ? "Other" : "Chat", 
+                          onTap: widget.isCurrentUser ? (){} : (){
                             Navigations.slideFromRight(
                               context: context, 
                               newScreen: ChatScreen(receiverEmail: _profile.email)
@@ -255,10 +262,33 @@ class _ProfilePageState extends State<ProfilePage> {
                       child: UnderlinedText(
                         text: "Resources Posted", 
                         onTap: (){
-                          
+                          Navigations.slideFromRight(
+                            context: context, 
+                            newScreen: PostsList(email: _profile.email,)
+                          );
                         }
                       ),
                     ),
+                  ),
+
+                  FutureBuilder<Post>(
+                    future: _postsFuture,
+                    builder: (context, snapshot) {
+                      if(snapshot.hasData){
+                        final post = snapshot.data;
+                        if(post.id == null){
+                          return Center(child: Container(
+                            margin: const EdgeInsets.only(top: 10, bottom: 5),
+                            child: EmptyResultsText(message: "No posts to display",))
+                          );
+                        }
+                        return Center(child: PostCard(post: post));
+                      }
+                      else if(snapshot.hasError){
+                        return Center(child: ErrorText(error: snapshot.error));
+                      }
+                      return Center(child: CustomProgressIndicator());
+                    },
                   ),
 
                   Center(

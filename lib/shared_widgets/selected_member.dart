@@ -77,10 +77,12 @@ class _SelectedMemberState extends State<SelectedMember> {
                         ),
 
                         Container(
-                          child: Text(profile.about.isEmpty ? "Move immediately" : profile.about,
+                          child: Text("Move immediately",
+                          maxLines: null,
                             style: TextStyle(
                               color: AppColors.lightGrey,
                               fontSize: 20,
+                              
                             ),
                           ),
                         ),
