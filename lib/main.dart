@@ -22,6 +22,7 @@ import 'package:camel_up/screens/auth/signup.dart';
 import 'package:camel_up/screens/home/home.dart';
 import 'package:camel_up/screens/welcome/welcome.dart';
 import 'package:camel_up/tests/tests.dart';
+import 'package:camel_up/utils/constants.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -110,19 +111,48 @@ class Body extends StatefulWidget{
   _BodyState createState() => _BodyState();
 }
 
-class _BodyState extends State<Body> {
+class _BodyState extends State<Body> with WidgetsBindingObserver{
+  final _userRepo = UserRepo();
 
   @override
   void initState() {
     super.initState();
 
-    // Tests.uploadMockProfiles();
+    WidgetsBinding.instance.addObserver(this);
+
+    _userRepo.updateUserOnlineStatus(status: OnlineStatus.ONLINE_NOW);
     
     Future.delayed(Duration.zero, (){
       final authCubit = context.bloc<AuthCubit>();
       authCubit.checkSignedInUser();
     });
+  
+  }
 
+  @override
+  void didChangeAppLifecycleState(AppLifecycleState state) {
+    super.didChangeAppLifecycleState(state);
+    switch (state) {
+      case AppLifecycleState.paused:
+        _userRepo.updateUserOnlineStatus(status: OnlineStatus.OFFLINE);
+        break;
+      case AppLifecycleState.resumed:
+        _userRepo.updateUserOnlineStatus(status: OnlineStatus.ONLINE_NOW);
+        break;
+      case AppLifecycleState.detached:
+        _userRepo.updateUserOnlineStatus(status: OnlineStatus.OFFLINE);
+        break;
+      case AppLifecycleState.inactive:
+        _userRepo.updateUserOnlineStatus(status: OnlineStatus.OFFLINE);
+        break;
+      default:
+    }
+  }
+
+  @override
+  void dispose() {
+    WidgetsBinding.instance.removeObserver(this);
+    super.dispose();
   }
 
   @override
