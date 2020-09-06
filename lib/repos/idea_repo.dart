@@ -163,9 +163,7 @@ class IdeaRepo {
         "evaluation" : evaluation
       }, SetOptions(merge: true));
 
-      print("Ref exists");
     }else {  //else
-      print("Ref does not exist");
       ref.add({
         "evaluatorEmail" : evaluatorEmail,
         "ideaId" : ideaId,

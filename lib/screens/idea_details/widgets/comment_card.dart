@@ -34,7 +34,7 @@ class CommentCard extends StatelessWidget{
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
                         image: showImage(comment.commenterImageUrl),
-                        fit: BoxFit.fill
+                        fit: BoxFit.cover
                       )
                     ),
                   ),

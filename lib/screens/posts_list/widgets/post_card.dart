@@ -32,7 +32,7 @@ class PostCard extends StatelessWidget{
                       borderRadius: BorderRadius.circular(30),
                       image: DecorationImage(
                         image: showImage(post.profileImage),
-                        fit: BoxFit.fill
+                        fit: BoxFit.cover
                       )
                     ),
                   ),
