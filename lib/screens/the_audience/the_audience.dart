@@ -5,6 +5,7 @@ import 'package:camel_up/cubit/selected_radio_button_cubit.dart';
 import 'package:camel_up/models/profile.dart';
 import 'package:camel_up/screens/chat_screen/chat_screen.dart';
 import 'package:camel_up/screens/privacy_list_dialog/privacy_list_dialog.dart';
+import 'package:camel_up/screens/profile_page/profile_page.dart';
 import 'package:camel_up/screens/the_audience/wigets/the_audience_header.dart';
 import 'package:camel_up/screens/the_idea/widgets/insert_widget.dart';
 import 'package:camel_up/shared_widgets/custom_progress_indicator.dart';
@@ -43,7 +44,7 @@ class _TheAudienceState extends State<TheAudience> {
             showCustomToast("Idea saved successfully");
           }
         },
-        child: ListView(
+        child: Column(
           children: [
             Container(
               margin: const EdgeInsets.only(top: 40),
@@ -196,50 +197,52 @@ class _TheAudienceState extends State<TheAudience> {
               }
             ),
 
-            Container(
-              height: 300,
-              child: BlocBuilder<PrivacyMembersCubit, PrivacyMembersState>(
-                builder: (context, state){
-                  if(state is PrivacyMembersInitial){
-                    return Container();
-                  }else{
-                    return StreamBuilder<List<String>>(
-                      stream: context.bloc<PrivacyMembersCubit>().usersStream,
-                      builder: (context, snapshot){
-                        if(snapshot.hasData){
-                          final results = snapshot.data;
-                          if(results.length > 0){
-                            return ListView.builder(
-                              itemCount: results.length,
-                              itemBuilder: (context, index){
-                                return PrivacyWidget(
-                                  onTap: (){
-                                    Navigations.slideFromRight(
-                                      context: context, 
-                                      newScreen: ChatScreen(receiverEmail: results[index])
-                                    );
-                                  }, 
-                                  email: results[index]
-                                );
-                              }
-                            );
-                          }else{
-                            return EmptyResultsText();
+            Expanded(
+              child: Container(
+                child: BlocBuilder<PrivacyMembersCubit, PrivacyMembersState>(
+                  builder: (context, state){
+                    if(state is PrivacyMembersInitial){
+                      return Container();
+                    }else{
+                      return StreamBuilder<List<String>>(
+                        stream: context.bloc<PrivacyMembersCubit>().usersStream,
+                        builder: (context, snapshot){
+                          if(snapshot.hasData){
+                            final results = snapshot.data;
+                            if(results.length > 0){
+                              return ListView.builder(
+                                shrinkWrap: true,
+                                itemCount: results.length,
+                                itemBuilder: (context, index){
+                                  return PrivacyWidget(
+                                    onTap: (){
+                                      Navigations.slideFromRight(
+                                        context: context, 
+                                        newScreen: ProfilePage(email: results[index])
+                                      );
+                                    }, 
+                                    email: results[index]
+                                  );
+                                }
+                              );
+                            }else{
+                              return EmptyResultsText();
+                            }
                           }
-                        }
-                        else if(snapshot.hasError){
-                          return Center(
-                            child: ErrorText(error: "${snapshot.error}"),
+                          else if(snapshot.hasError){
+                            return Center(
+                              child: ErrorText(error: "${snapshot.error}"),
+                            );
+                          }
+
+                          return CustomProgressIndicator(
+                            color: AppColors.yellow
                           );
                         }
-
-                        return CustomProgressIndicator(
-                          color: AppColors.yellow
-                        );
-                      }
-                    );
+                      );
+                    }
                   }
-                }
+                ),
               ),
             ),
 

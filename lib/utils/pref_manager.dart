@@ -48,8 +48,8 @@ class PrefManager {
     }
   }
 
-  static clearTeamMembers() {
-    SharedPreferences.getInstance().then((prefs) => prefs.remove(_TEAM_MEMBERS));
+  static clearTeamMembers() async{
+    await SharedPreferences.getInstance().then((prefs) => prefs.remove(_TEAM_MEMBERS));
   }
 
   static saveIdeaDetails({@required List<String> keywords, 

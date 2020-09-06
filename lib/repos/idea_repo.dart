@@ -24,6 +24,13 @@ class IdeaRepo {
     final privacy = audienceDetails[PrefKeys.PRIVACY];
     final privacyList = audienceDetails[PrefKeys.PRIVACY_LIST]?.cast<String>() ?? [];
 
+    teamMembers.insert(0,{
+      "email": profile.email,
+      "role" : "Chief Executive Officer"
+    });
+
+    final List<String> simplifiedTeam = teamMembers.map((member) => member["email"].toString()).toList();
+
     final idea = Idea(
       id: id,
       team: teamMembers,
@@ -35,7 +42,8 @@ class IdeaRepo {
       privacyList: privacyList,
       profileEmail: profile.email,
       profileImage: profile.profileImage,
-      profileName: "${profile.firstName} ${profile.lastName}"
+      profileName: "${profile.firstName} ${profile.lastName}",
+      simplifiedTeam: simplifiedTeam
     );
 
     return docReference.set(idea.toMap());
@@ -51,7 +59,7 @@ class IdeaRepo {
 
   Future<List<Idea>> getAllIdeasForUser(String email) async{
     final snapshot = await _firestore.collection("ideas")
-                                .where("email", isEqualTo: email)
+                                .where("simplifiedTeam", arrayContains: email)
                                 .get();
     final ideaList = snapshot.docs.map(
                       (doc) => Idea.fromMap(doc.data())
@@ -68,7 +76,7 @@ class IdeaRepo {
 
   Future<Idea> getFirstUserIdea(String email) async{
     final querySnapshot = await _firestore.collection("ideas")
-                                    .where("email", isEqualTo: email)
+                                    .where("simplifiedTeam", arrayContains: email)
                                     .limit(1)
                                     .get();
                                     
@@ -115,52 +123,57 @@ class IdeaRepo {
 
   Future<String> getIdeaAverageEvaluation({@required String ideaId}) async{
     final snapshot = await _firestore.collection("ideas").doc(ideaId).get();
-    return snapshot.data()["averageEvaluation"].toString();
+    return (snapshot.data()["averageEvaluation"]?.toString() ?? "0.0");
   }
 
   Future<void> updateIdeaAverageEvaluation({@required String ideaId, @required String evaluation}) async{
     final ref = _firestore.collection("ideas").doc(ideaId);
     final currentEvaluation = double.parse(await getIdeaAverageEvaluation(ideaId: ideaId));
     final int evalutationCount = await getCurrentEvaluationCount(ideaId);
-    final newEvaluation = (currentEvaluation+(double.parse(evaluation)))/evalutationCount;
+    final newEvaluation = ((currentEvaluation+(double.parse(evaluation)))/evalutationCount).round();
     await ref.set({
-      "evaluation" : newEvaluation.toString()
+      "averageEvaluation" : newEvaluation.toString()
     }, SetOptions(merge: true));
   }
 
   Future<void> updateIdeaEvaluationCount({@required String ideaId}) async{
     final snapshot = await _firestore.collection("ideas").doc(ideaId).get();
-    final currentEvaluationCount = int.parse(snapshot.data()["evaluationCount"]);
+    final currentEvaluationCount = int.parse((snapshot.data()["evaluationCount"])?.toString() ?? "0");
     await _firestore.collection("ideas").doc(ideaId).set({
       "evaluationCount" : (currentEvaluationCount+1)
     }, SetOptions(merge: true));
   }
 
-  Future<int> getCurrentEvaluationCount(String ideaId) async{
+  Future<int> getCurrentEvaluationCount(String ideaId) async {
     final snapshot = await _firestore.collection("ideas").doc(ideaId).get();
-    return int.parse(snapshot.data()["evaluationCount"]);
+    return int.parse(snapshot.data()["evaluationCount"]?.toString() ?? "0");
   }
 
-  Future<void> saveIdeaEvaluation({@required String evaluatorEmail, 
+  Future<void> updateIdeaEvaluation({@required String evaluatorEmail, 
         @required String ideaId, @required String evaluation}) async{
+
     final ref = _firestore.collection("evaluations");
     final snapshot = await ref.where("evaluatorEmail", isEqualTo: evaluatorEmail)
                 .where("ideaId", isEqualTo: ideaId)
                 .get();
 
-    final docs = snapshot.docs;
-    if(docs.length >= 1) { //if already exists
+    final docs = snapshot?.docs;
+    if(docs != null && docs.length >= 1) { //if already exists
       docs[0].reference.set({
         "evaluation" : evaluation
       }, SetOptions(merge: true));
+
+      print("Ref exists");
     }else {  //else
+      print("Ref does not exist");
       ref.add({
         "evaluatorEmail" : evaluatorEmail,
         "ideaId" : ideaId,
         "evaluation" : evaluation
       });
+      await updateIdeaEvaluationCount(ideaId: ideaId);
     }
-    updateIdeaEvaluationCount(ideaId: ideaId);
+    
     updateIdeaAverageEvaluation(ideaId: ideaId, evaluation: evaluation);
   }
 

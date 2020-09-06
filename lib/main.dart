@@ -23,6 +23,7 @@ import 'package:camel_up/screens/home/home.dart';
 import 'package:camel_up/screens/welcome/welcome.dart';
 import 'package:camel_up/tests/tests.dart';
 import 'package:camel_up/utils/constants.dart';
+import 'package:camel_up/utils/pref_manager.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -152,6 +153,8 @@ class _BodyState extends State<Body> with WidgetsBindingObserver{
   @override
   void dispose() {
     WidgetsBinding.instance.removeObserver(this);
+    PrefManager.clearIdea();
+    PrefManager.clearPost();
     super.dispose();
   }
 

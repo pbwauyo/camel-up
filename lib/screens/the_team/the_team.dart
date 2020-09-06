@@ -1,5 +1,6 @@
 import 'package:camel_up/cubit/selected_members_cubit.dart';
 import 'package:camel_up/repos/user_repo.dart';
+import 'package:camel_up/screens/profile_page/profile_page.dart';
 import 'package:camel_up/screens/the_idea/the_idea.dart';
 import 'package:camel_up/shared_widgets/add_button.dart';
 import 'package:camel_up/shared_widgets/circular_button.dart';
@@ -36,6 +37,12 @@ class _TheTeamState extends State<TheTeam> {
     if(_scrollController.hasClients){
       _scrollController.jumpTo(50.0);
     }
+  }
+
+  @override
+  void dispose() {
+    PrefManager.clearTeamMembers();
+    super.dispose();
   }
 
   @override
@@ -100,9 +107,17 @@ class _TheTeamState extends State<TheTeam> {
                                     itemBuilder: (context, index){
                                       final email = results[index]["email"];
                                       final role = results[index]["role"];
-                                      return SelectedMember(
-                                        email: email, 
-                                        role: role
+                                      return GestureDetector(
+                                        onTap: (){
+                                          Navigations.slideFromRight(
+                                          context: context, 
+                                          newScreen: ProfilePage(email: email)
+                                        );
+                                        },
+                                        child: SelectedMember(
+                                          email: email, 
+                                          role: role
+                                        ),
                                       );
                                     },
                                   ),

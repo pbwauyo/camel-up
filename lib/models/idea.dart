@@ -19,13 +19,14 @@ class Idea {
   String profileEmail;
   String profileName;
   String profileImage;
+  List<String> simplifiedTeam;
 
   Idea({this.id, this.team, this.ideaKeywords, 
   this.teammateKeywords, this.title, 
   this.text, this.audio, this.video ,
   this.privacyList, this.privacy, this.timestamp, this.commentsCount, 
   this.likesCount, this.liked, this.averageEvaluation,
-  this.profileEmail, this.profileName, this.profileImage});
+  this.profileEmail, this.profileName, this.profileImage, this.simplifiedTeam});
 
   factory Idea.fromMap(Map<String, dynamic> map){
    return Idea(
@@ -46,7 +47,7 @@ class Idea {
      averageEvaluation: map["averageEvaluation"] ?? "0.0",
      profileEmail: map["profileEmail"],
      profileImage: map["proifleImage"],
-     profileName: map["profileName"]
+     profileName: map["profileName"],
    );                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                                   
   }
 
@@ -62,8 +63,9 @@ class Idea {
       "video" : video ?? "",
       "privacyList" : privacyList,
       "privacy" : privacy,
-      "timestamp" : Timestamp.now().nanoseconds.toString()
-
+      "averageEvaluation" : averageEvaluation ?? "",
+      "timestamp" : Timestamp.now().nanoseconds.toString(),
+      "simplifiedTeam" : simplifiedTeam
     };
   }
 

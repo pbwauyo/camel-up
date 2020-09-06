@@ -80,16 +80,18 @@ class IdeaDetails extends StatelessWidget {
                                         value: state.percentage, 
                                         onChanged: (value){
                                           context.bloc<EvaluationPercentageCubit>().setPercentage(value.round().toDouble());
+                                        },
+                                        onChangeEnd: (value){
                                           Future.delayed(Duration(seconds: 2), 
                                           () async{
-                                            _ideaRepo.saveIdeaEvaluation(
+                                            await _ideaRepo.updateIdeaEvaluation(
                                               evaluatorEmail: await _userRepo.getCurrentUserEmail(), 
                                               ideaId: idea.id, 
                                               evaluation: value.round().toString()
                                             );
                                           });
                                         },
-                                      )
+                                      ),
                                     ),
                                   ),
     
@@ -131,8 +133,10 @@ class IdeaDetails extends StatelessWidget {
                         final data = snapshot.data.docs;
     
                         if(data.length <= 0){
-                          return EmptyResultsText(
-                            message: "No comments yet",
+                          return Center(
+                            child: EmptyResultsText(
+                              message: "No comments yet",
+                            ),
                           );
                         }
                         return ListView.builder(
@@ -149,7 +153,7 @@ class IdeaDetails extends StatelessWidget {
                           },
                         );
                       }
-                      return CustomProgressIndicator();
+                      return Center(child: CustomProgressIndicator());
                     }
                   ),
                 ),

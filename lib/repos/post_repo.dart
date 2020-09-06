@@ -48,7 +48,7 @@ class PostRepo {
 
   Future<List<Post>> getAllPostsForUser(String email) async{
     final snapshot = await _firestore.collection("posts")
-                                .where("email", isEqualTo: email)
+                                .where("profileEmail", isEqualTo: email)
                                 .get();
     final postsList = snapshot.docs.map(
                       (doc) => Post.fromMap(doc.data())
@@ -65,7 +65,7 @@ class PostRepo {
 
   Future<Post> getFirstUserPost(String email) async{
     final querySnapshot = await _firestore.collection("Post")
-                                    .where("email", isEqualTo: email)
+                                    .where("profileEmail", isEqualTo: email)
                                     .limit(1)
                                     .get();
                                     
